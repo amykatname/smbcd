@@ -65,9 +65,12 @@ local loadingbarv = 0 --0-1
 local loadingbardraw = function(add)
 	love.graphics.clear()
 	love.graphics.push()
-	--if android then
-	--	love.graphics.scale(winwidth/(width*16*scale), winheight/(224*scale))
-	--end
+	if android then
+		love.graphics.scale(winwidth/(width*16*scale), winheight/(224*scale))
+		sixteenbynine = true
+		width = 25
+		changescale(scale)
+	end
 	--love.graphics.setColor(150, 150, 150)
 	--properprint("loading mari0..", ((width*16)*scale)/2-string.len("loading mari0..")*4*scale, 20*scale)
 	--love.graphics.setColor(50, 50, 50)

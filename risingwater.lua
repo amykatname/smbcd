@@ -39,7 +39,7 @@ function risingwater:init(x, y, r)
 	if self.t == "clear water" then
 		self.quadi = 1
 		self.drawover = true
-		self.animdelay = 0.2
+		self.animdelay = 0.125
 	elseif self.t == "water" then
 		self.quadi = 2
 		self.drawover = false

@@ -1,4 +1,5 @@
 function levelscreen_load(reason, i)
+	deathtimer = 0
 	--BLOCKTOGGLE STUFF
 	solidblocksred = true
 	solidblocksblue = true
@@ -42,7 +43,7 @@ function levelscreen_load(reason, i)
 		sublevelscreen_level = i
 	elseif reason == "dc" then
 		gamestate = "dclevelscreen"
-		blacktime = 0.8
+		blacktime = 0 --.8
 	elseif livesleft then
 		gamestate = "levelscreen"
 		blacktime = levelscreentime
@@ -73,7 +74,7 @@ function levelscreen_load(reason, i)
 						stoptestinglevel()
 					else
 						gamestate = "mappackfinished"
-						blacktime = gameovertime
+						blacktime = gameovertime/2
 						
 						if love.filesystem.exists(mappackfolder .. "/" .. mappack .. "/endingmusic.ogg") or love.filesystem.exists(mappackfolder .. "/" .. mappack .. "/endingmusic.mp3") then
 							playsound(endingmusic)
@@ -87,7 +88,11 @@ function levelscreen_load(reason, i)
 					end
 				else
 					if love.filesystem.exists(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "-" .. mariolevel .. "levelscreen.png") then
-						levelscreenimage = love.graphics.newImage(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "-" .. mariolevel .. "levelscreen.png")
+						if sixteenbynine then
+							levelscreenimage = love.graphics.newImage(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "-" .. mariolevel .. "levelscreenwide.png")
+						else
+							levelscreenimage = love.graphics.newImage(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "-" .. mariolevel .. "levelscreen.png")
+						end
 						levelscreenimagecheck = true
 					elseif love.filesystem.exists(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "levelscreen.png") then
 						levelscreenimage = love.graphics.newImage(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "levelscreen.png")
@@ -99,7 +104,7 @@ function levelscreen_load(reason, i)
 				end
 			else
 				dcfinish = true
-				blacktime = 0.8
+				blacktime = 0 --.8
 			end
 		else
 			checkcheckpoint = true
@@ -111,8 +116,13 @@ function levelscreen_load(reason, i)
 			
 			if not dcplaying then
 				if love.filesystem.exists(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "-" .. mariolevel .. "levelscreen.png") then
-					levelscreenimage = love.graphics.newImage(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "-" .. mariolevel .. "levelscreen.png")
-					levelscreenimagecheck = true
+					if sixteenbynine then
+						levelscreenimage = love.graphics.newImage(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "-" .. mariolevel .. "levelscreenwide.png")
+						levelscreenimagecheck = true
+					else
+						levelscreenimage = love.graphics.newImage(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "-" .. mariolevel .. "levelscreen.png")
+						levelscreenimagecheck = true
+					end
 				elseif love.filesystem.exists(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "levelscreen.png") then
 					levelscreenimage = love.graphics.newImage(mappackfolder .. "/" .. mappack .. "/" .. marioworld .. "levelscreen.png")
 					levelscreenimagecheck = true
@@ -143,9 +153,9 @@ function levelscreen_load(reason, i)
 		updateplayerproperties()
 	end
 	
-	if marioworld == 1 or mariolevel == 1 then
-		blacktime = blacktime * 1.5
-	end
+--	if marioworld == 1 or mariolevel == 1 then
+--		blacktime = blacktime * 1.5
+--	end
 	
 	coinframe = 1
 	
@@ -175,6 +185,9 @@ function levelscreen_load(reason, i)
 	end
 
 	server_levelscreen(reason, i)
+	
+	fadealpha = 1.5
+	fade_state = "Fade_To_Clear"
 end
 
 function levelscreen_update(dt)
@@ -186,6 +199,15 @@ function levelscreen_update(dt)
 	
 	if CLIENT and levelscreentimer > blacktime+5 and (love.keyboard.isDown("escape") or (android and jumpkey(1))) then --netplay
 		net_quit()
+	end
+	if gamestate == "gameover" then
+		if levelscreentimer >= 4.9 then
+			fade_state = "Fade_To_Black"
+		end
+	else
+		if levelscreentimer >= 1.8 then
+			fade_state = "Fade_To_Black"
+		end
 	end
 	
 	if levelscreentimer > blacktime and net_levelscreensync() then
@@ -240,9 +262,11 @@ function levelscreen_update(dt)
 end
 
 function levelscreen_draw()
+--love.graphics.print(levelscreentimer, 60, 150) --printing shit
+
 	local properprintfunc = properprintF
 	if hudoutline then
-		properprintfunc = properprintFbackground
+		properprintfunc = properprintMbackground --change m to f for no purple
 	end
 	local properprintbasicfunc = properprint
 	if hudoutline then
@@ -308,7 +332,7 @@ function levelscreen_draw()
 				end
 			end
 			
-			if mappack == "smb" and marioworld == 2 and mariolevel == 1 then
+			--[[if mappack == "smb" and marioworld == 2 and mariolevel == 1 then
 				local s = "remember that you can run with "
 				for i = 1, #controls[1]["run"] do
 					s = s .. controls[1]["run"][i]
@@ -317,7 +341,7 @@ function levelscreen_draw()
 					end
 				end
 				properprintfunc(s, (width/2*16)*scale-string.len(s)*4*scale, 200*scale)
-			elseif mappack == "portal" and marioworld == 1 and mariolevel == 1 then
+			else]]if mappack == "portal" and marioworld == 1 and mariolevel == 1 then
 				local s = "you can remove your portals with "
 				for i = 1, #controls[1]["reload"] do
 					s = s .. controls[1]["reload"][i]

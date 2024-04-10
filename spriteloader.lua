@@ -66,7 +66,7 @@ function loadcustomsprites(initial) --Sprite loader
 		titleframe = 1
 		titlequad = {}
 		for x = 1, titleframes do
-			titlequad[x] = love.graphics.newQuad((x-1)*176, 0, 176, 88, titleimage:getWidth(), titleimage:getHeight())
+			titlequad[x] = love.graphics.newQuad(0, 0, 219, 41, titleimage:getWidth(), titleimage:getHeight())
 		end
 		goombaquad = {}
 		for y = 1, 4 do
@@ -593,10 +593,10 @@ function loadquads(initial)
 	
 	--coin
 	coinquads = {}
-	for j = 1, 4 do
+	for j = 1, 12 do
 		coinquads[j] = {}
-		for i = 1, 5 do
-			coinquads[j][i] = love.graphics.newQuad((i-1)*16, (j-1)*16, 16, 16, 80, 64)
+		for i = 1, 13 do
+			coinquads[j][i] = love.graphics.newQuad((i-1)*16, (j-1)*16, 16, 16, 208, 64)
 		end
 	end
 	
@@ -1399,31 +1399,31 @@ function loadquads(initial)
 	end
 end
 
-local SPRITESfixcoin, SPRITESfixcoinblock, SPRITESfixplatform, SPRITESfixseesaw, SPRITESfixpushbutton, SPRITESfixplant, SPRITESfixcheepcheep,
+local --[[SPRITESfixcoin,]] SPRITESfixcoinblock, SPRITESfixplatform, SPRITESfixseesaw, SPRITESfixpushbutton, SPRITESfixplant, SPRITESfixcheepcheep,
 	SPRITESfixyoshi, SPRITESfixsquid, SPRITESfixcheepcheep, SPRITESfixsquidbaby, SPRITESfixkoopaling, SPRITESfixfont, SPRITESfixredseesaw, SPRITESfixgrinder, SPRITESfixaxe
 function fixsprites(reset)
 	--BAD. Should be re-coded later.
-	if coinimage:getWidth() == 64 and (not reset) then
-		SPRITESfixcoin = true
-		coinquads = {}
-		for j = 1, 4 do
-			coinquads[j] = {}
-			for i = 1, 3 do
-				coinquads[j][i] = love.graphics.newQuad((i-1)*16, (j-1)*16, 16, 16, 64, 64)
-			end
-			coinquads[j][4] = coinquads[j][2]
-			coinquads[j][5] = coinquads[j][1]
-		end
-	elseif SPRITESfixcoin then
-		coinquads = {}
-		for j = 1, 4 do
-			coinquads[j] = {}
-			for i = 1, 5 do
-				coinquads[j][i] = love.graphics.newQuad((i-1)*16, (j-1)*16, 16, 16, 80, 64)
-			end
-		end
-		SPRITESfixcoin = false
-	end
+--	if coinimage:getWidth() == 64 and (not reset) then
+--		SPRITESfixcoin = true
+--		coinquads = {}
+--		for j = 1, 12 do
+--			coinquads[j] = {}
+--			for i = 1, 13 do
+--				coinquads[j][i] = love.graphics.newQuad((i-1)*16, (j-1)*16, 16, 16, 208, 64)
+--			end
+--			--coinquads[j][12] = coinquads[j][2]
+--			--coinquads[j][13] = coinquads[j][1]
+--		end
+--	elseif SPRITESfixcoin then
+--		coinquads = {}
+--		for j = 1, 12 do
+--			coinquads[j] = {}
+--			for i = 1, 13 do
+--				coinquads[j][i] = love.graphics.newQuad((i-1)*16, (j-1)*16, 16, 16, 208, 64)
+--			end
+--		end
+--		SPRITESfixcoin = false
+--	end
 	if coinblockimage:getWidth() == 64 and (not reset) then
 		SPRITESfixcoinblock = true
 		coinblockquads = {}

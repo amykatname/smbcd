@@ -35,12 +35,14 @@ fencejumptime = 0.05 --how long mario jumps when holding up and jumping while cl
 
 --STARCOLORS
 starcolors = {}
-starcolors[1] = {{  0,   0,   0}, {200,  76,  12}, {252, 188, 176}}
-starcolors[2] = {{  0, 168,   0}, {252, 152,  56}, {252, 252, 252}}
-starcolors[3] = {{252, 216, 168}, {216,  40,   0}, {252, 152,  56}}
-starcolors[4] = {{216,  40,   0}, {252, 152,  56}, {252, 252, 252}}
+starcolors[1] = {{189,48,33}, {0,0,198}, {239,166,33}}
+starcolors[2] = {{  104,104,0}, {0,0,0}, {239,166,33}}
+starcolors[3] = {{255,223,173}, {  189,40,0}, {239,166,33}} -- flower
+starcolors[4] = {{ 219,150,40}, {  13,149,0}, {239,166,33}}
 
-flowercolor = {{252, 216, 168}, {216,  40,   0}, {252, 152,  56}}
+flowercolor = {{255,223,173}, {  189,40,0}, {239,166,33}} --mario
+
+
 hammersuitcolor = {{  0,   0,   0}, { 255, 255, 255}, {252, 152,  56}}
 frogsuitcolor = {{  0, 168,   0}, {  0,   0,   0}, {252, 152,  56}}
 leafcolor = {{224, 32,   0}, {136, 112,   0}, {252, 152,  56}}
@@ -672,7 +674,7 @@ invincibletime = 3.2
 blinktime = 0.5
 
 levelscreentime = 2.4 --2.4
-gameovertime = 7
+gameovertime = 5.5
 blacktimesub = 0.1
 sublevelscreentime = 0.2
 
@@ -685,10 +687,10 @@ flaganimationdelay = 0.6
 scoresubtractspeed = 1/60
 castleflagstarty = 1.5
 castleflagspeed = 3
-castlemintime = 7
+castlemintime = 5
 fireworkdelay = 0.55
 fireworksoundtime = 0.2
-endtime = 2
+endtime = 1
 
 --spring
 springtime = 0.2
@@ -809,7 +811,8 @@ autoscrollingdefaultspeed = 3
 autoscrollingmaxspeed = 8
 
 dropshadow = false
-dropshadowcolor = {0, 0, 0, 80}
+dropshadowcolor = {0, 0, 0, 64}
+undergrounddropshadowcolor = {128, 128, 128, 128}
 --[[dropshadownooverlap = true --no overlapping dropshadows
 dropshadowoverlapshader = love.graphics.newShader[[
 	vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )

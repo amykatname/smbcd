@@ -97,7 +97,7 @@ function androidLoad()
 	buttons["portal2"].color = {232, 130, 30}
 	
 	-- shift keys to left
-	if fourbythree then
+	if sixteenbynine then
 		local skip = {"left", "right", "up", "down", "reload", "portal1", "portal2"}
 		for i, v in pairs(buttons) do
 			if not tablecontains(skip, i) then 

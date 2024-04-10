@@ -84,7 +84,7 @@ function flower:update(dt)
 	if self.t == "superball" then
 		self.quad = coinblockquads[spriteset][coinframe]
 	elseif (not self.t) or self.t == "fire" or self.t == "ice" then
-		self.timer = self.timer + dt
+		self.timer = self.timer + dt / 3.3
 		while self.timer > staranimationdelay do
 			self.quadi = self.quadi + 1
 			if self.quadi == 5 then

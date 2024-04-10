@@ -16,7 +16,7 @@ function camerastop:init(x, y, r)
 		--rightclick things
 		local v = convertr(self.r[1], {"num", "num", "num", "num", "bool", "bool"}, true)
 		self.rx = (self.cox-1)+v[3]
-		self.ry = (self.coy-1)+v[4]
+--		self.ry = (self.coy-1)+v[4]
 		self.rw = v[1]
 		self.rh = v[2]
 		self.forcepush = v[5] --forcefully push camera out of way?
@@ -53,12 +53,12 @@ function camerastop:collide(oldx, oldy)
 				if cx > x1+w1 then
 					forcepush = "right"
 				end
-				if cy > y1+h1 then
-					forcepush = "down"
-				end
-				if cy < y1 then
-					forcepush = "up"
-				end
+--				if cy > y1+h1 then
+--					forcepush = "down"
+--				end
+--				if cy < y1 then
+--					forcepush = "up"
+--				end
 			end
 			--right
 			if (oldx+width <= x1 and xscroll+width > x1) or forcepush == "left" then
@@ -68,12 +68,12 @@ function camerastop:collide(oldx, oldy)
 				splitxscroll[1] = math.min(mapwidth-width, x1+w1)
 			end
 			--down
-			if (oldy+height <= y1 and yscroll+height > y1) or forcepush == "up" then
-				splityscroll[1] = math.max(0, y1-height)
-			--up
-			elseif (oldy >= y1+h1 and yscroll < y1+h1) or forcepush == "down" then
-				splityscroll[1] = math.min(mapheight-1-height, y1+h1)
-			end
+--			if (oldy+height <= y1 and yscroll+height > y1) or forcepush == "up" then
+--				splityscroll[1] = math.max(0, y1-height)
+--			--up
+--			elseif (oldy >= y1+h1 and yscroll < y1+h1) or forcepush == "down" then
+--				splityscroll[1] = math.min(mapheight-1-height, y1+h1)
+--			end
 
 			if xscroll ~= splitxscroll[1] or yscroll ~= splityscroll[1] then
 				generatespritebatch()

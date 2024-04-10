@@ -1,0 +1,50 @@
+{
+	"quadcount": 2,
+
+	"transforms": true,
+	"transformsinto": "cdspineyblink",
+	"transformtrigger": "lifetime",
+	"lifetime": 3,
+
+	"animationtype": "frames",
+	"animationframes": 2,
+	"animationstart": 1,
+	"animationspeed": 0.15,
+	
+	"nospritesets": true,
+	
+	"resistsfire": false,
+	
+	"kills": true,
+	
+	"movement": "truffleshuffle",
+	"truffleshufflespeed": 2.25,
+	"truffleshuffleacceleration": 8,
+	
+	"emancipatecheck": true,
+	"starttowardsplayerhorizontal": false,
+	"speedx": -2,
+	
+	"width": 0.75,
+	"height": 0.75,
+	"static": false,
+	"active": true,
+	"category": 5,
+	
+	"mask": [	true, 
+				false, false, false, false, true,
+				false, true, false, true, false,
+				false, false, true, false, false,
+				true, true, false, false, true,
+				false, true, true, false, false,
+				true, false, true, true, true,
+				false],
+				
+	"autodelete": true,
+	"dontspawnnearcheckpoint": true,
+	
+	"offsetX": 6,
+	"offsetY": 3,
+	"quadcenterX": 8,
+	"quadcenterY": 8
+}

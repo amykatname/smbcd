@@ -1,0 +1,50 @@
+{
+	"quadcount": 6,
+	"drawback": true,
+	
+	"animationtype": "frames",
+	"animationframes": 6,
+	"animationstart": 1,
+	"animationspeed": 0.125,
+
+	"movement": "none",
+	"kills": false,
+
+	"Carryable": true,
+	"carryRange": [0.1, 0.1, 0.8 ,0.8],
+	"carryOffsetX": 0.75 ,
+
+	"transforms": true,
+	"transformsinto": "vegetable2",
+	"transformtrigger": "carry",
+
+	"width": 1,
+	"height": 1,
+	
+	"spawnoffsety": 0.0,
+ 
+	"static": true,
+	"active": false,
+ 
+	"mask": [	true,
+				false, false, true, true, true,
+				false, true, false, true, true,
+				false, true, true, false, true,
+				true, true, false, true, true,
+				false, true, true, false, false,
+				true, false, true, true, true],
+ 
+	"emancipatecheck": false,
+	"autodelete": false,
+	"regiontriggerexclude": true,
+	
+	
+	"resistseverything": true,
+ 
+	"offsetX": 8,
+	"offsetY": -1,
+	"quadcenterX": 8,
+	"quadcenterY": 8,
+ 
+	"nospritesets": true
+}

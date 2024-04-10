@@ -1,0 +1,38 @@
+{
+	"quadcount": 1,
+
+	"spawnoffsetx": 0,
+	"spawnoffsety": 0,
+	
+	"nospritesets": true,
+	
+	"resistsfire": false,
+	"transforms": true,
+	"transformsinto": "poof",
+	"transformtrigger": "death",
+	"kills": true,
+	
+	"width": 0.75,
+	"height": 1,
+	"static": true,
+	"active": false,
+	"category": 5,
+	
+	"mask": [true],
+				
+	"autodelete": false,
+
+	"spawnsenemy": "zoomplant",
+	"spawnenemydelays": [6],
+	"dontspawnenemyonplayernear": true,
+	"dontspawnenemydist": 2,
+	"spawnchildren": ["zoomplant"],
+	
+	"customscissor": [-0.5, 1, 2, 2],
+	"invertedscissor": true,
+	
+	"offsetX": 12,
+	"offsetY": -20,
+	"quadcenterX": 8,
+	"quadcenterY": 8
+}

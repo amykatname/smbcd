@@ -1,36 +1,75 @@
 {
 	"name": "mario",
 
+	"colors": [
+		[[189,48,33],
+		[0,0,198],
+		[239,166,33]],
+		
+		[[255,223,173],
+		[189,40,0],
+		[239,166,33]],
+		
+		[[104,104,0],
+		[0,0,0],
+		[239,166,33]],
+		
+		[[219,150,40],
+		[13,149,0],
+		[239,166,33]],
+	],
 	"defaultcolors": [
-		[[225,32,0],
-		[134,112,0],
-		[252,151,58]],
+		[[189,48,33],
+		[0,0,198],
+		[239,166,33]],
 		
-		[[225,255,255],
-		[0,168,0],
-		[252,151,58]],
+		[[255,223,173],
+		[189,40,0],
+		[239,166,33]],
 		
-		[[0,0,0],
-		[200,76,12],
-		[252,188,176]],
+		[[104,104,0],
+		[0,0,0],
+		[239,166,33]],
 		
-		[[32,56,236],
-		[0,128,136],
-		[252,152,56]]
-		],
+		[[219,150,40],
+		[13,149,0],
+		[239,166,33]],
+	],
+	"defaultcolors2": [
+		[[189,48,33],
+		[0,0,198],
+		[239,166,33]],
 		
-	"flowercolor": [[252,216,168], [216,40,0], [252,152,56]],
+		[[255,223,173],
+		[189,40,0],
+		[239,166,33]],
+		
+		[[104,104,0],
+		[0,0,0],
+		[239,166,33]],
+		
+		[[219,150,40],
+		[13,149,0],
+		[239,166,33]],
+	],
+		
+	"flowercolor": [[255,223,173], [189,40,0], [239,166,33]],
+	"flowercolor2": [[255,223,173], [189,40,0], [239,166,33]],
 	"hammersuitcolor": [[0,0,0], [255,255,255], [252,152,56]],
 	"frogsuitcolor": [[0,168,0], [0,0,0], [252,152,56]],
 	"iceflowercolor": [[225,255,255], [60, 188, 252], [252,152,56]],
 	"tanookisuitcolor": [[200,76,12], [0,0,0], [252,152,56]],
 	"superballcolor": [[100,100,50], [160,160,100], [230,230,180]],
 	
-	"smallducking": false,
+	"jumpforce": 16.8,
+	"jumpforceadd": 2, 
+
+	"smallducking": true,
 
 	"swimpushframes": 1,
 	"fenceframes": 2,
 	"smallduckingframes": 1,
+	"fallframes": 1,
 
 	"smalloffsetX": 6,
 	"smalloffsetY": 3,
@@ -38,7 +77,7 @@
 	"smallquadcenterY": 10,
 	"smallquadwidth": 20,
 	"smallquadheight": 20,
-	"smallimgwidth": 380,
+	"smallimgwidth": 400,
 	"smallimgheight": 100,
 
 	"shrinkquadcenterX": 9,
@@ -52,12 +91,12 @@
 	"growquadcenterY2": 10,
 
 	"bigquadcenterY": 20,
-	"bigquadcenterX": 9,
+	"bigquadcenterX": 13,
 	"bigoffsetY": -3,
 	"bigoffsetX": 6,
-	"bigquadwidth": 20,
+	"bigquadwidth": 28,
 	"bigquadheight": 36,
-	"bigimgwidth": 340,
+	"bigimgwidth": 504,
 	"bigimgheight": 180,
 
 	"duckquadcenterY": 26,
@@ -150,45 +189,5 @@
 	"boomerangimgwidth": 340,
 	"boomerangimgheight": 180,
 
-	"hats": true,
-	"defaulthat": 1,
-	"hatoffsets": {
-		"idle": [0,0],
-		"running": [[0,0],[0,0],[-1,-1]],
-		"sliding": [0,0],
-		"jumping": [0,-1],
-		"falling": [0,0],
-		"climbing": [[2,0],[2,-1]],
-		"fence": [[0,0],[0,0]],
-		"swimming": [[1,-1],[1,-1],[1,-1],[1,-1],[1,-1]],
-		"grow": [-6,0],
-		"dead": [1,-2]
-	},
-	
-	"bighatoffsets": {
-		"idle": [-4,-2],
-		"fire": [-5,-4],
-		"running": [[-5,-4],[-4,-3],[-3,-2]],
-		"sliding": [-5,-2],
-		"jumping": [-4,-4],
-		"falling": [-4,-2],
-		"climbing": [[-4,-4],[-4,-4]],
-		"fence": [[-4,-4],[-4,-4]],
-		"swimming": [[-5,-4],[-5,-4],[-5,-4],[-5,-4],[-5,-4]],
-		"ducking": [-5,-12],
-		"capefly": [[-10,-10],[-11,-15],[-10,-19],[-11,-21],[-9,-22],[-9,-24]],
-		"grow": [-6,0]
-	},
-
-	"skinnyhatoffsets": {
-		"idle": [1,0],
-		"running": [[2, -2],[1,-1],[3,0]],
-		"sliding": [-1,-3],
-		"jumping": [2,-2],
-		"falling": [1,0],
-		"climbing": [[2,0],[4,-2]],
-		"fence": [[2,0],[2,0]],
-		"swimming": [[0,0],[0,-1],[0,-1],[0,-1],[0,0]],
-		"ducking": [1,-13]
-	}
+	"hats": false
 }

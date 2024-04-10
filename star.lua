@@ -88,7 +88,7 @@ function star:update(dt)
 	
 	if self.t == "star" then
 		--animate
-		self.timer = self.timer + dt
+		self.timer = self.timer + (dt/2)
 		while self.timer > staranimationdelay do
 			self.quadi = self.quadi + 1
 			if self.quadi == 5 then

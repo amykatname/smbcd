@@ -35,12 +35,12 @@ fencejumptime = 0.05 --how long mario jumps when holding up and jumping while cl
 
 --STARCOLORS
 starcolors = {}
-starcolors[1] = {{      0,       0,       0}, {200/255,  76/255,  12/255}, {252/255, 188/255, 176/255}}
-starcolors[2] = {{      0, 168/255,       0}, {252/255, 152/255,  56/255}, {252/255, 252/255, 252/255}}
-starcolors[3] = {{252/255, 216/255, 168/255}, {216/255,  40/255,       0}, {252/255, 152/255,  56/255}}
-starcolors[4] = {{216/255,  40/255,       0}, {252/255, 152/255,  56/255}, {252/255, 252/255, 252/255}}
+starcolors[1] = {{189/255,48/255,33/255}, {0,0,198/255}, {239/255,166/255,33/255}}
+starcolors[2] = {{  104/255,104/255,0}, {0,0,0}, {239/255,166/255,33/255}}
+starcolors[3] = {{255/255,223/255,173/255}, {  189/255,40/255,0}, {239/255,166/255,33/255}} -- flower
+starcolors[4] = {{ 219/255,150/255,40/255}, {  13/255,149/255,0}, {239/255,166/255,33/255}}
 
-flowercolor = {{252/255, 216/255, 168/255}, {216/255, 40/255, 0}, {252/255, 152/255, 56/255}}
+flowercolor = {{255/255,223/255,173/255}, {  189/255,40/255,0}, {239/255,166/255,33/255}} --mario
 hammersuitcolor = {{0, 0, 0}, {1, 1, 1}, {252/255, 152/255, 56/255}}
 frogsuitcolor = {{0, 168/255, 0}, {0, 0, 0}, {252/255, 152/255, 56/255}}
 leafcolor = {{224/255, 32/255, 0}, {136/255, 112/255, 0}, {252/255, 152/255, 56/255}}
@@ -672,7 +672,7 @@ invincibletime = 3.2
 blinktime = 0.5
 
 levelscreentime = 2.4 --2.4
-gameovertime = 7
+gameovertime = 5.5
 blacktimesub = 0.1
 sublevelscreentime = 0.2
 
@@ -685,10 +685,10 @@ flaganimationdelay = 0.6
 scoresubtractspeed = 1/60
 castleflagstarty = 1.5
 castleflagspeed = 3
-castlemintime = 7
+castlemintime = 5
 fireworkdelay = 0.55
 fireworksoundtime = 0.2
-endtime = 2
+endtime = 1
 
 --spring
 springtime = 0.2
@@ -809,7 +809,8 @@ autoscrollingdefaultspeed = 3
 autoscrollingmaxspeed = 8
 
 dropshadow = false
-dropshadowcolor = {0, 0, 0, 80/255}
+dropshadowcolor = {0, 0, 0, 64/255}
+undergrounddropshadowcolor = {0, 0, 0, 64/255}
 --[[dropshadownooverlap = true --no overlapping dropshadows
 dropshadowoverlapshader = love.graphics.newShader[[
 	vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )

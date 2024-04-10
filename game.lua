@@ -59,8 +59,8 @@ function game_load(suspended)
 	autoscrollx = true
 	autoscrolly = true
 	
-	inputs = { "door", "groundlight", "wallindicator", "cubedispenser", "walltimer", "notgate", "laser", "lightbridge", "delayer", "funnel", "portal1", "portal2", "text", "geldispenser", "tiletool", "enemytool", "randomizer", "musicchanger", "rocketturret", "checkpoint", "emancipationgrill", "belt", "animationtrigger", "faithplate", "animatedtiletrigger", "orgate", "andgate", "rsflipflop", "kingbill", "platform", "collectable", "skewer", "energylauncher", "camerastop", "laserfields", "track", "animationtrigger", "snakeblock", "risingwater", "trackswitch" }
-	inputsi = {28, 29, 30, 43, 44, 45, 46, 47, 48, 67, 74, 84, 49, 50, 51, 52, 53, 54, 55, 36, 37, 38, 39, 186, 198, 197, 199, 61, 62, 63, 64, 65, 66, 71, 72, 73, 181, 182, 183, 201, 205, 206, 210, 194, 225, 226, 227, 229, 230, 231, 232, 100, 26, 27, 266, 271, 273, 274, 272, 105, 163, 248, 249, 18, 19, 259, 166, 167, 168, 169, 304, 309, 311, 306, 270, 317, 290, 285}
+	inputs = { "door", "groundlight", "wallindicator", "cubedispenser", "walltimer", "notgate", "laser", "lightbridge", "delayer", "funnel", "portal1", "portal2", "text", "geldispenser", "tiletool", "enemytool", "randomizer", "musicchanger", "rocketturret", "checkpoint", "emancipationgrill", "belt", "animationtrigger", "faithplate", "animatedtiletrigger", "orgate", "andgate", "rsflipflop", "kingbill", "platform", "collectable", "skewer", "energylauncher", "camerastop", "laserfields", "track", "animationtrigger", "snakeblock", "risingwater", "trackswitch", "smbcdsublevel" }
+	inputsi = {28, 29, 30, 43, 44, 45, 46, 47, 48, 67, 74, 84, 49, 50, 51, 52, 53, 54, 55, 36, 37, 38, 39, 186, 198, 197, 199, 61, 62, 63, 64, 65, 66, 71, 72, 73, 181, 182, 183, 201, 205, 206, 210, 194, 225, 226, 227, 229, 230, 231, 232, 100, 26, 27, 266, 271, 273, 274, 272, 105, 163, 248, 249, 18, 19, 259, 166, 167, 168, 169, 304, 309, 311, 306, 270, 317, 290, 285, 318}
 	
 	outputs = { "button", "laserdetector", "box", "pushbutton", "walltimer", "notgate", "energycatcher", "squarewave", "delayer", "regiontrigger", "randomizer", "tiletool", "orgate", "andgate", "rsflipflop", "flipblock", "doorsprite", "collectablelock", "collectable", "animationoutput" }
 	outputsi = {40, 56, 57, 58, 59, 20, 68, 69, 74, 84, 165, 170, 171, 172, 173, 185, 186, 200, 206, 201, 222, 267, 268, 273, 274, 272, 275, 163, 248, 249, 277, 276, 291}
@@ -176,12 +176,20 @@ function game_load(suspended)
 	else
 		levelscreen_load("initial")
 	end
+	
+	--levelscreen fade shit
+	fadealpha = 1.25
+	fade_state = "Fade_To_Clear"
 end
 
 function game_update(dt)
 	--------
 	--GAME--
 	--------
+	
+	if donteatassinthehalls then
+		return
+	end
 	
 	--pausemenu
 	if pausemenuopen and not (SERVER or CLIENT) then
@@ -716,13 +724,13 @@ function game_update(dt)
 		if i ~= "tile" and i ~= "portalwall" and i ~= "screenboundary" and i ~= "coin" and i ~= "risingwater" and i ~= "clearpipesegment" and i ~= "tracksegment" and i ~= "funnel" and i ~= "clearpipe" then
 			delete = nil
 			for j, w in pairs(v) do
-				if dropshadow and w.shot and w.rotation then
-					if not w.dropshadowrotation then
-						w.dropshadowrotation = w.rotation
-					end
-					w.dropshadowrotation = w.dropshadowrotation + w.speedx*2*dt
-					w.rotation = w.dropshadowrotation
-				end
+			--	if dropshadow and w.shot and w.rotation then
+			--		if not w.dropshadowrotation then
+			--			w.dropshadowrotation = w.rotation
+			--		end
+			--		w.dropshadowrotation = w.dropshadowrotation + w.speedx*2*dt
+			--		w.rotation = w.dropshadowrotation
+			--	end
 				if w.instantdelete or (w.update and w:update(dt)) then
 					w.delete = true
 					if not delete then delete = {} end
@@ -1547,6 +1555,15 @@ function game_draw()
 
 		--BACKGROUND TILES
 		if bmap_on then
+			if dropshadow and not _3DMODE and not editormode then
+				love.graphics.push()
+				love.graphics.translate(3*scale, 3*scale)
+				love.graphics.setColor(dropshadowcolor)
+
+				love.graphics.draw(smbspritebatch[2], math.floor((-(xoff-math.floor(xscroll))*16)*scale), math.floor((-(yoff-math.floor(yscroll))*16)*scale))
+				love.graphics.pop()
+				love.graphics.setColor(255,255,255,255)
+			end
 			if editormode then
 				love.graphics.setColor(1,1,1,100/255)
 			else
@@ -1573,7 +1590,7 @@ function game_draw()
 		end
 
 		--DROP SHADOW
-		if dropshadow and not _3DMODE then
+		if dropshadow and not _3DMODE and not editormode then
 			love.graphics.push()
 			love.graphics.translate(3*scale, 3*scale)
 			love.graphics.setColor(dropshadowcolor)
@@ -2848,18 +2865,23 @@ function game_draw()
 	
 	--pause menu
 	if pausemenuopen then
-		love.graphics.setColor(0, 0, 0, 100/255)
+		love.graphics.setColor(0, 0, 0, 2)
+		--love.graphics.setColor(0, 0, 0, 100)
 		love.graphics.rectangle("fill", 0, 0, width*16*scale, height*16*scale)
-		
-		love.graphics.setColor(0, 0, 0)
+
+		love.graphics.setColor(0, 0, 0, 0)
+		--love.graphics.setColor(0, 0, 0)
 		love.graphics.rectangle("fill", (width*8*scale)-50*scale, (112*scale)-75*scale, 100*scale, 150*scale)
-		love.graphics.setColor(1, 1, 1)
+		love.graphics.setColor(255, 255, 255, 0)
+		--love.graphics.setColor(255, 255, 255)
 		drawrectangle(width*8-49, 112-74, 98, 148)
-		
+
 		for i = 1, #pausemenuoptions do
-			love.graphics.setColor(100/255, 100/255, 100/255, 1)
+			love.graphics.setColor(100, 100, 100, 0)
+			--love.graphics.setColor(100, 100, 100, 255)
 			if pausemenuselected == i and not menuprompt and not desktopprompt then
-				love.graphics.setColor(1, 1, 1, 1)
+				love.graphics.setColor(255, 255, 255, 0)
+				--love.graphics.setColor(255, 255, 255, 255)
 				properprint(">", (width*8*scale)-45*scale, (112*scale)-60*scale+(i-1)*25*scale)
 			end
 			if dcplaying and pausemenuoptions[i] == "suspend" then --restart instead of suspend
@@ -2883,6 +2905,9 @@ function game_draw()
 		end
 		
 		if menuprompt then
+		love.graphics.setColor(15, 12, 30, 127)
+			love.graphics.rectangle("fill", 0*scale, 0*scale, 512*scale, 512*scale)
+			--before is bg
 			love.graphics.setColor(0, 0, 0, 1)
 			love.graphics.rectangle("fill", (width*8*scale)-100*scale, (112*scale)-25*scale, 200*scale, 50*scale)
 			love.graphics.setColor(1, 1, 1, 1)
@@ -3765,16 +3790,16 @@ function drawHUD()
 		love.graphics.setColor(1, 1, 1)
 		love.graphics.draw(coinanimationimage, coinanimationquads[spriteset or 1][coinframe or 1], 16*scale, 12*scale, 0, scale, scale)
 		love.graphics.setColor(hudtextcolor)
-		properprintfunc("*" .. addzeros((mariocoincount or 0), 2), 24*scale, 12*scale)
+		properprintfunc("" .. addzeros((mariocoincount or 0), 2), 32*scale, 12*scale)
 		
-		properprintfunc(addzeros((marioscore or 0), 9), (width*16-56-(9*8))*scale, 12*scale)
-		
-		love.graphics.draw(hudclockimg, hudclockquad[hudoutline], (width*16-49)*scale, 11*scale, 0, scale, scale)
-		if gamestate == "game" then
-			properprintfunc(addzeros(math.ceil(mariotime), 3), (width*16-40)*scale, 12*scale)
-		else
-			properprintfunc("000", (width*16-40)*scale, 12*scale)
-		end
+--		properprintfunc(addzeros((marioscore or 0), 9), (width*16-56-(9*8))*scale, 12*scale)
+--		
+--		love.graphics.draw(hudclockimg, hudclockquad[hudoutline], (width*16-49)*scale, 11*scale, 0, scale, scale)
+--		if gamestate == "game" then
+--			properprintfunc(addzeros(math.ceil(mariotime), 3), (width*16-40)*scale, 12*scale)
+--		else
+--			properprintfunc("000", (width*16-40)*scale, 12*scale)
+--		end
 	else
 		properprintfunc(playername, uispace*.5 - 24*scale, 8*scale)
 		properprintfunc(addzeros((marioscore or 0), 6), uispace*0.5-24*scale, 16*scale)
@@ -4275,6 +4300,8 @@ function startlevel(level, reason)
 	objects["screenboundary"] = {}
 	objects["screenboundary"]["left"] = screenboundary:new(0)
 	
+	objects["smbcdsublevel"] = {}
+	
 	splitxscroll = {0}
 	splityscroll = {0}
 	setscreenzoom(1)
@@ -4632,6 +4659,21 @@ function startlevel(level, reason)
 
 	prevxscroll = splitxscroll[1]
 	prevyscroll = splityscroll[1]
+	
+	--Level start fade shit
+	fadealpha = 1.25
+	fade_state = "Fade_To_Clear"
+
+	if marioworld == 1 and mariolevel == 2 then
+		if not editormode then
+			if Barrycounter == 0 then
+				Barrycounter = Barrycounter+1
+				playsound(barry)
+			end
+		else
+			playsound(barrythereal)
+		end
+	end
 end
 
 function loadmap(filename)
@@ -4797,6 +4839,8 @@ function loadmap(filename)
 		elseif s3[1] == "noportalgun" then
 			portalgun = false
 			portalguni = 2
+				playertypei = 5
+			playertype = playertypelist[playertypei]
 		elseif s3[1] == "portalguni" then
 			portalguni = tonumber(s3[2])
 			if portalguni == 2 then
@@ -5139,109 +5183,115 @@ function game_keypressed(key, textinput)
 				else
 					menuprompt = false
 				end
-			elseif key == "escape" then
+			elseif key == "enter" then
 				menuprompt = false
 			end
 			return
-		elseif desktopprompt then
-			if (key == "left" or key == "a") then
-				pausemenuselected2 = 1
-			elseif (key == "right" or key == "d") then
-				pausemenuselected2 = 2
-			elseif (key == "return" or key == "enter" or key == "kpenter" or key == " ") then
-				if pausemenuselected2 == 1 then
-					love.audio.stop()
-					love.event.quit()
-				else
-					desktopprompt = false
-				end
-			elseif key == "escape" then
-				desktopprompt = false
-			end
-			return
-		elseif suspendprompt then
-			if (key == "left" or key == "a") then
-				pausemenuselected2 = 1
-			elseif (key == "right" or key == "d") then
-				pausemenuselected2 = 2
-			elseif (key == "return" or key == "enter" or key == "kpenter" or key == " ") then
-				if dcplaying then
-					suspendprompt = false
-				elseif pausemenuselected2 == 1 then
-					stopmusic()
-					love.audio.stop()
-					suspendgame()
-					suspendprompt = false
-					pausemenuopen = false
-				else
-					suspendprompt = false
-				end
-			elseif key == "escape" then
-				suspendprompt = false
-			end
-			return
-		end
-		if (key == "down" or key == "s") then
-			if pausemenuselected < #pausemenuoptions then
-				pausemenuselected = pausemenuselected + 1
-			end
-		elseif (key == "up" or key == "w") then
-			if pausemenuselected > 1 then
-				pausemenuselected = pausemenuselected - 1
-			end
-		elseif (key == "return" or key == "enter" or key == "kpenter" or key == " ") then
-			if pausemenuoptions[pausemenuselected] == "resume" then
-				pausemenuopen = false
-				if pausedaudio then
-					love.audio.play(pausedaudio)
-					pausedaudio = nil
-				else
-					playmusic()
-				end
-			elseif pausemenuoptions[pausemenuselected] == "suspend" then
-				if dcplaying then
-					pausemenuopen = false
-					updatesizes("reset")
-					levelscreen_load("dc")
-					updatesizes("reset")
-				else
-					suspendprompt = true
-					pausemenuselected2 = 1
-				end
-			elseif pausemenuoptions2[pausemenuselected] == "menu" then
-				menuprompt = true
-				pausemenuselected2 = 1
-			elseif pausemenuoptions2[pausemenuselected] == "desktop" then
-				desktopprompt = true
-				pausemenuselected2 = 1
-			end
 		elseif key == "escape" then
+			menuprompt = true --escape
+			pausemenuselected2 = 1
+--		elseif desktopprompt then
+--			if (key == "left" or key == "a") then
+--				pausemenuselected2 = 1
+--			elseif (key == "right" or key == "d") then
+--				pausemenuselected2 = 2
+--			elseif (key == "return" or key == "enter" or key == "kpenter" or key == " ") then
+--				if pausemenuselected2 == 1 then
+--					love.audio.stop()
+--					love.event.quit()
+--				else
+--					desktopprompt = false
+--				end
+--			elseif key == "escape" then
+--				desktopprompt = false
+--			end
+--			return
+--		elseif suspendprompt then
+--			if (key == "left" or key == "a") then
+--				pausemenuselected2 = 1
+--			elseif (key == "right" or key == "d") then
+--				pausemenuselected2 = 2
+--			elseif (key == "return" or key == "enter" or key == "kpenter" or key == " ") then
+--				if dcplaying then
+--					suspendprompt = false
+--				elseif pausemenuselected2 == 1 then
+--					stopmusic()
+--					love.audio.stop()
+--					suspendgame()
+--					suspendprompt = false
+--					pausemenuopen = false
+--				else
+--					suspendprompt = false
+--				end
+--			elseif key == "escape" then
+--				suspendprompt = false
+--			end
+--			return
+--		end
+--		if (key == "down" or key == "s") then
+--			if pausemenuselected < #pausemenuoptions then
+--				pausemenuselected = pausemenuselected + 1
+--			end
+--		elseif (key == "up" or key == "w") then
+--			if pausemenuselected > 1 then
+--				pausemenuselected = pausemenuselected - 1
+--			end
+		elseif (key == "return" or key == "enter" or key == "kpenter" or key == " ") then
 			pausemenuopen = false
-			if pausedaudio then
-				love.audio.play(pausedaudio)
-				pausedaudio = nil
-			else
-				playmusic()
-			end
-		elseif (key == "right" or key == "d") then
-			if pausemenuoptions[pausemenuselected] == "volume" then
-				if volume < 1 then
-					volume = volume + 0.1
-					love.audio.setVolume( volume )
-					soundenabled = true
-					playsound(coinsound)
-				end
-			end
-			
-		elseif (key == "left" or key == "a") then
-			if pausemenuoptions[pausemenuselected] == "volume" then
-				volume = math.max(volume - 0.1, 0)
-				love.audio.setVolume( volume )
-				if volume == 0 then
-					soundenabled = false
-				end
-				playsound(coinsound)
-			end
+			love.audio.resume()
+			playsound(pausesound)
+--			if pausemenuoptions[pausemenuselected] == "resume" then
+--				pausemenuopen = false
+--				if pausedaudio then
+--					love.audio.play(pausedaudio)
+--					pausedaudio = nil
+--				else
+--					playmusic()
+--				end
+--			elseif pausemenuoptions[pausemenuselected] == "suspend" then
+--				if dcplaying then
+--					pausemenuopen = false
+--					updatesizes("reset")
+--					levelscreen_load("dc")
+--					updatesizes("reset")
+--				else
+--					suspendprompt = true
+--					pausemenuselected2 = 1
+--				end
+--			elseif pausemenuoptions2[pausemenuselected] == "menu" then
+--				menuprompt = true
+--				pausemenuselected2 = 1
+--			elseif pausemenuoptions2[pausemenuselected] == "desktop" then
+--				desktopprompt = true
+--				pausemenuselected2 = 1
+--			end
+--		elseif key == "escape" then
+--			pausemenuopen = false
+--			if pausedaudio then
+--				love.audio.play(pausedaudio)
+--				pausedaudio = nil
+--			else
+--				playmusic()
+--			end
+--		elseif (key == "right" or key == "d") then
+--			if pausemenuoptions[pausemenuselected] == "volume" then
+--				if volume < 1 then
+--					volume = volume + 0.1
+--					love.audio.setVolume( volume )
+--					soundenabled = true
+--					playsound(coinsound)
+--				end
+--			end
+--			
+--		elseif (key == "left" or key == "a") then
+--			if pausemenuoptions[pausemenuselected] == "volume" then
+--				volume = math.max(volume - 0.1, 0)
+--				love.audio.setVolume( volume )
+--				if volume == 0 then
+--					soundenabled = false
+--				end
+--				playsound(coinsound)
+--			end
 		end
 			
 		return
@@ -5319,12 +5369,12 @@ function game_keypressed(key, textinput)
 		end
 		
 		if controls[i]["portal1"][1] == key and objects["player"][i] then
-			objects["player"][i]:shootportal(1)
+			--objects["player"][i]:shootportal(1)
 			return
 		end
 		
 		if controls[i]["portal2"][1] == key and objects["player"][i] then
-			objects["player"][i]:shootportal(2)
+			--objects["player"][i]:shootportal(2)
 			return
 		end
 	end
@@ -5357,7 +5407,7 @@ function game_keypressed(key, textinput)
 		end
 	end
 	
-	if key == "escape" then
+	if (key == "return" or key == "enter" or key == "kpenter" or key == "escape") then
 		if not editormode and testlevel then
 			stoptestinglevel()
 			return
@@ -5474,9 +5524,9 @@ function game_mousepressed(x, y, button)
 		
 		if not noupdate and objects["player"][mouseowner] then
 			if button == "l" then
-				objects["player"][mouseowner]:shootportal(1)
+				--objects["player"][mouseowner]:shootportal(1)
 			elseif button == "r" then
-				objects["player"][mouseowner]:shootportal(2)
+				--objects["player"][mouseowner]:shootportal(2)
 			end
 		end
 			
@@ -6259,11 +6309,11 @@ function savemap(filename)
 			s = s .. ";customforeground"
 		end
 	end
-	if not portalgun then
-		s = s .. ";noportalgun"
-	else
-		s = s .. ";portalguni=" .. portalguni
-	end
+--	if not portalgun then
+--		s = s .. ";noportalgun"
+--	else
+--		s = s .. ";portalguni=" .. portalguni
+--	end
 	if musici == 7 then
 		if guielements["custommusiciinput"] then
 			s = s .. ";custommusic=" .. guielements["custommusiciinput"].value
@@ -7008,7 +7058,9 @@ function spawnentity(t, x, y, r, id)
 		table.insert(objects["randomizer"], randomizer:new(x, y, r[3], r))
 	elseif t == "musicchanger" then
 		table.insert(objects["musicchanger"], musicchanger:new(x, y, r, r[3]))
-		
+	elseif t == "smbcdsublevel" then
+		table.insert(objects["smbcdsublevel"], smbcdsublevel:new(x, y, r, r[3]))
+	
 	elseif t == "longfire" then --change to enemy? (be wary of region triggers)
 		table.insert(objects["longfire"], longfire:new(x, y, r[3]))
 	elseif t == "longfireoff" then
@@ -7883,7 +7935,7 @@ end
 
 function addzeros(s, i)
 	for j = string.len(s)+1, i do
-		s = "0" .. s
+		s = "" .. s
 	end
 	return s
 end
@@ -8118,7 +8170,7 @@ function game_joystickpressed( joystick, button )
 			if s and s[1] == "joy" then
 				if s[3] == "but" then
 					if joystick == s[2] and button == s[4] and objects["player"][i] and i ~= mouseowner then
-						objects["player"][i]:shootportal(1)
+						--objects["player"][i]:shootportal(1)
 						return
 					end
 				end
@@ -8128,7 +8180,7 @@ function game_joystickpressed( joystick, button )
 			if s and s[1] == "joy" then
 				if s[3] == "but" then
 					if joystick == tonumber(s[2]) and button == tonumber(s[4]) and objects["player"][i] and i ~= mouseowner then
-						objects["player"][i]:shootportal(2)
+						--objects["player"][i]:shootportal(2)
 						return
 					end
 				end
@@ -8664,14 +8716,22 @@ function setphysics(i)
 end
 
 function setcamerasetting(i)
+if not sixteenbynine then
+
+	-- original code, is accurate to the original if in 4:3 mode
 	if i == 2 then --centered
 		scrollingstart = (width/2)+.5
 		scrollingcomplete = (width/2)-1.5
-		scrollingleftstart = (width/2)+1
-		scrollingleftcomplete = (width/2)-2
+@@ -8648,6 +8817,17 @@ function setcamerasetting(i)
 	elseif i == 3 then
 
 	end
+else
+
+		-- custom, makes 16:9 accurate
+		scrollingstartv = (width/2+3.3)+.5
+		scrollingcompletev = (width/2+2.8)-1.5
+end
 end
 
 function createedgewrap() --create blocks on borders for edge wrapping
@@ -8884,7 +8944,16 @@ function rendercustombackground(xscroll, yscroll, scrollfactor, scrollfactory)
 				local x1, y1 = math.floor(xscroll*16*scale)/scale, math.floor(yscroll*16*scale)/scale
 				local qx, qy, qw, qh, sw, sh = custombackgroundquad[i]:getViewport()
 				custombackgroundquad[i]:setViewport( x1, y1, width*16*screenzoom2, height*16*screenzoom2, sw, sh )
+if dropshadow then
+--[[dshadow]]	love.graphics.push()
+--[[dshadow]]	love.graphics.translate(3*scale, 3*scale)
+--[[dshadow]]	love.graphics.setColor(dropshadowcolor)
+--[[dshadow]]	love.graphics.draw(custombackgroundimg[i], custombackgroundquad[i], 0, 0, 0, scale, scale)
+--[[shadow]]love.graphics.pop()
+--[[shadow]]love.graphics.setColor(255,255,255,255)
+				end
 				love.graphics.draw(custombackgroundimg[i], custombackgroundquad[i], 0, 0, 0, scale, scale)
+				love.graphics.setColor(255,255,255,255)
 			else
 				for y = min, math.ceil(height/custombackgroundheight[i])+1 do
 					for x = min, math.ceil(width/custombackgroundwidth[i])+1 do

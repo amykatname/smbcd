@@ -75,33 +75,38 @@ local loadingbardraw = function(add)
 	love.graphics.push()
 	if android then
 		love.graphics.scale(winwidth/(width*16*scale), winheight/(224*scale))
+		sixteenbynine = true
+		width = 25
+		changescale(scale)
 	end
-	love.graphics.setColor(150/255, 150/255, 150/255)
-	properprint("loading mari0..", ((width*16)*scale)/2-string.len("loading mari0..")*4*scale, 20*scale)
-	love.graphics.setColor(50/255, 50/255, 50/255)
-	local scale2 = scale
-	if scale2 <= 1 then
-		scale2 = 0.5
-	else
-		scale2 = 1
-	end
-	properprint(loadingtext, ((width*16)*scale)/2-string.len(loadingtext)*4*scale, ((height*16)*scale)/2+165*scale2)
-	if FamilyFriendly then
-		love.graphics.setColor(1, 1, 1)
-		properprint("stys.eu", ((width*16)*scale)/2-string.len("stys.eu")*4*scale, 110*scale)
-	else
-		love.graphics.setColor(1, 1, 1)
-		love.graphics.draw(logo, ((width*16)*scale)/2, ((height*16)*scale)/2, 0, scale2, scale2, 142, 150)
-	end
+--	love.graphics.setColor(150/255, 150/255, 150/255)
+--	properprint("loading mari0..", ((width*16)*scale)/2-string.len("loading mari0..")*4*scale, 20*scale)
+--	love.graphics.setColor(50/255, 50/255, 50/255)
+--	local scale2 = scale
+--	if scale2 <= 1 then
+--		scale2 = 0.5
+--	else
+--		scale2 = 1
+--	end
+--	properprint(loadingtext, ((width*16)*scale)/2-string.len(loadingtext)*4*scale, ((height*16)*scale)/2+165*scale2)
+--	if FamilyFriendly then
+--		love.graphics.setColor(1, 1, 1)
+--		properprint("stys.eu", ((width*16)*scale)/2-string.len("stys.eu")*4*scale, 110*scale)
+--	else
+--		love.graphics.setColor(1, 1, 1)
+--		love.graphics.draw(logo, ((width*16)*scale)/2, ((height*16)*scale)/2, 0, scale2, scale2, 142, 150)
+--	end
 
-	loadingbarv = loadingbarv + (add)/(8)
-	love.graphics.setColor(1,1,1)
-	love.graphics.rectangle("fill", 0, (height*16-3)*scale, (width*16*loadingbarv)*scale, 3*scale)
+--	loadingbarv = loadingbarv + (add)/(8)
+--	love.graphics.setColor(1,1,1)
+--	love.graphics.rectangle("fill", 0, (height*16-3)*scale, (width*16*loadingbarv)*scale, 3*scale)
 	love.graphics.pop()
 	love.graphics.present()
 end
 
 function love.load()
+	Barrycounter = 0
+
 	loadingbarv = 0
 
 	marioversion = 1006
@@ -134,9 +139,9 @@ function love.load()
 	currentshaderi2 = 1
 	
 	if android and not androidtest then
-		love.filesystem.setIdentity("mari0_android") --[DROID]
+		love.filesystem.setIdentity("mari0_smbcd_android") --[DROID]
 	else
-		love.filesystem.setIdentity("mari0")
+		love.filesystem.setIdentity("mari0_smbcd")
 	end
 	
 	local ok, result = pcall(loadconfig)
@@ -147,10 +152,10 @@ function love.load()
 	end
 	
 	saveconfig()
-	if fourbythree then
-		width = 16
-	else
+	if sixteenbynine then
 		width = 25
+	else
+		width = 16
 	end
 	height = 14 --?
 	fsaa = 0
@@ -161,25 +166,42 @@ function love.load()
 		changescale(scale, fullscreen)
 	end
 
-	love.window.setTitle( "Mari0: AE" )
+	love.window.setTitle( "Super Mario Bros. CD" )
 	
-	love.window.setIcon(love.image.newImageData("graphics/icon.png"))
+	iconrng = love.math.random( 1, 2)
+	if iconrng == 1 then
+		love.window.setIcon(love.image.newImageData("graphics/icon_goomba.png"))
+	elseif iconrng == 2 then
+		love.window.setIcon(love.image.newImageData("graphics/icon_mushroom.png"))
+	end
 	
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	
 	love.graphics.setBackgroundColor(0, 0, 0)
 	
-	logo = love.graphics.newImage("graphics/stabyourself.png") --deleted later to save memory
-	logoblood = love.graphics.newImage("graphics/stabyourselfblood.png")
+--	logo = love.graphics.newImage("graphics/stabyourself.png") --deleted later to save memory
+--	logoblood = love.graphics.newImage("graphics/stabyourselfblood.png")
+
+	--menu shit
+	graphicmario = love.graphics.newImage("graphics/mario.png")
+	graphicluigi = love.graphics.newImage("graphics/luigi.png")
+
+	--goal shit
+	marioendsmall = love.graphics.newImage("graphics/marioendsmall.png")
+	marioendbig = love.graphics.newImage("graphics/marioendbig.png")
+	marioendfire = love.graphics.newImage("graphics/marioendfire.png")
 
 	--UTF8 Font
 	fontimage = love.graphics.newImage("graphics/SMB/font.png")
 	fontbackimage = love.graphics.newImage("graphics/SMB/fontback.png")
-	
+	fontbackmenuimage = love.graphics.newImage("graphics/SMB/fontback_menu.png")
+
 	font = love.graphics.newFont("font.fnt", "graphics/SMB/font.png")
 	fontback = love.graphics.newFont("font.fnt", "graphics/SMB/fontback.png")
+	fontbackmenu = love.graphics.newFont("font.fnt", "graphics/SMB/fontback_menu.png")
 	fontCAP = love.graphics.newFont("fontcap.fnt", "graphics/SMB/font.png")
 	fontbackCAP = love.graphics.newFont("fontcap.fnt", "graphics/SMB/fontback.png")
+	fontbackmenuCAP = love.graphics.newFont("fontcap.fnt", "graphics/SMB/fontback_menu.png")
 	--gamefont = font
 	--gamefontback = fontback
 	--gamefontCAP = fontCAP
@@ -291,7 +313,7 @@ function love.load()
 				"emancipationfizzle", "emancipateanimation", "ceilblocker", "belt", "hatloader", "poof", "animationguiline", "animation",
 				"animationsystem", "animationtrigger", "dialogbox", "portal", "orgate", "andgate", "animatedtiletrigger", "rsflipflop", "animatedtimer",
 				"collectable", "powblock", "smallspring", "risingwater", "redseesaw", "snakeblock", "frozencoin", "entitytooltip", "spawnanimation",
-				"camerastop", "clearpipe", "track", "tilemoving", "laserfield", "checkpointflag", "ice", "pipe", "errorwindow"}
+				"camerastop", "clearpipe", "track", "tilemoving", "laserfield", "checkpointflag", "ice", "pipe", "errorwindow", "smbcdsublevel"}
 	for i = 1, #luas do
 		require(luas[i])
 	end
@@ -477,6 +499,7 @@ function love.load()
 			23,24,25, 89, 33,34, 95,96, 131,132, 159,160, --zones
 			35, --drag in
 			304,--camera stop
+			318, --smbcd thing
 			},
 		{name = "platforming elements",
 			309,--[[18,19,]]32,41,--[[42,]]92,80,289, --platforms
@@ -610,7 +633,7 @@ function love.load()
 			"enter fullscreen with alt and enter.",
 			"change your character in the settings!",
 			"add more playable characters in the 'mari0/alesans_entities/characters' folder."}
-	disabletips = false
+	disabletips = true
 
 	loadingbardraw(1)
 	
@@ -876,6 +899,7 @@ function love.load()
 	blockhitsound = love.audio.newSource("sounds/blockhit.ogg", "static")
 	blockbreaksound = love.audio.newSource("sounds/blockbreak.ogg", "static")
 	coinsound = love.audio.newSource("sounds/coin.ogg", "static")
+	menumovesound = love.audio.newSource("sounds/menumove.ogg", "static")
 	pipesound = love.audio.newSource("sounds/pipe.ogg", "static")
 	boomsound = love.audio.newSource("sounds/boom.ogg", "static")
 	mushroomappearsound = love.audio.newSource("sounds/mushroomappear.ogg", "static")
@@ -958,6 +982,11 @@ function love.load()
 	glados1sound = love.audio.newSource("sounds/glados1.ogg", "stream")
 	glados2sound = love.audio.newSource("sounds/glados2.ogg", "static")
 	
+	titlemusic = love.audio.newSource("sounds/title.ogg", "static")
+	optionsmusic = love.audio.newSource("sounds/options.ogg", "static");optionsmusic:setLooping(true)
+	barry = love.audio.newSource("sounds/barry.ogg", "static")
+	barrythereal = love.audio.newSource("sounds/barryeditor.ogg", "static")
+	
 	portal1opensound = love.audio.newSource("sounds/portal1open.ogg", "static");portal1opensound:setVolume(0.3)
 	portal2opensound = love.audio.newSource("sounds/portal2open.ogg", "static");portal2opensound:setVolume(0.3)
 	portalentersound = love.audio.newSource("sounds/portalenter.ogg", "static");portalentersound:setVolume(0.3)
@@ -1039,6 +1068,22 @@ function love.load()
 	loadingbardraw(1)
 	
 	intro_load()
+	
+	--FADE SHIT
+	fadealpha = 0				--fadealpha = 1.3
+	fade_state = "Clear"		--fade_state = "Fade_To_Clear"
+	funnytimer = 0
+	deathtimer = 0
+
+	--volumebackup = 0
+	--volumebackup = volume
+
+	--goal shit
+
+	goaltimer = 0
+
+	subleveltriggered = false
+	subleveltimer = 0
 end
 
 function love.update(dt)
@@ -1122,6 +1167,80 @@ function love.update(dt)
 	end
 	
 	notice.update(dt)
+	
+	--FADE SHIT AGAIN
+	if fade_state == "Fade_To_Black" then
+		fadealpha=fadealpha+(dt*2.5)
+		if fadealpha > 1 then
+			fadealpha = 1
+			fade_state = "Black"
+		end
+	end
+
+	if fade_state == "Fade_To_Clear" then
+		fadealpha=fadealpha-(dt*2.5)
+		if fadealpha < 0.1 then
+			fadealpha = 0
+			fade_state = "Clear"      
+		end
+	end
+
+	funnytimer=(funnytimer+dt)
+	if funnytimer >= 0.85 then
+			funnytimer = 0
+	end
+
+	deathtimer=(deathtimer+dt)
+	if deathtimer >= 0.95 and deathtimer <= 1.05 then
+			deathtimer = 0
+	end
+
+	if deathtimer >= 5 then
+		deathtimer = 0
+		fade_state = "Fade_To_Black"
+	end
+
+	npPgState = 0
+	npDsState = 0
+
+	if dropshadow then
+		npDsState = 1
+	else
+		npDsState = 0
+	end
+
+	if noportalgun then
+		npPgState = 1
+	else
+		npPgState = 0
+	end
+
+	--goal shit
+
+	if mariogoalsign then
+		goaltimer=(goaltimer+dt)
+	end
+
+	updatesizes()
+--	
+--	for i, size in ipairs(mariosizes) do
+--		print("Player " .. i .. ": " .. size)
+--	end
+
+	if subleveltriggered then
+		subleveltimer=subleveltimer+dt
+	end
+
+	if subleveltimer >= 0.51 then
+		subleveltriggered = false
+		subleveltimer = 0
+
+		donteatassinthehalls = false
+
+		updatesizes()
+		updateplayerproperties()
+		levelscreen_load("sublevel", 1)
+	end
 end
 
 function love.draw()
@@ -1224,6 +1343,61 @@ function lovedraw()
 	--properprint("mariosublevel: " .. tostring(mariosublevel) .. "\nprevsublevel: " .. tostring(prevsublevel) .. "\nactualsublevel: " .. tostring(actualsublevel), 2, 2)
 
 	love.graphics.setColor(1, 1, 1)
+	
+	--FADE SHIT YET AGAIN
+	love.graphics.setColor(0, 0, 0, fadealpha*255)
+	love.graphics.rectangle("fill", 0*scale, 0*scale, width*16*scale, 256*scale)
+
+--	love.graphics.setColor(255, 255, 255, 255) --printing shit
+--	love.graphics.print(Barrycounter, 50, 50)
+--	love.graphics.print(subleveltimer, 50, 50)
+--	love.graphics.print(goaltimer, 50, 50)
+--	love.graphics.print(tostring(subleveltriggered), 50, 75)
+	--love.graphics.print("noportalgun", 50, 50)
+	--love.graphics.print(tostring(noportalgun), 50, 75)
+	--love.graphics.print("dropshadow", 50, 100)
+	--love.graphics.print(tostring(dropshadow), 50, 125)
+	--love.graphics.print("npDsState", 50, 150)
+	--love.graphics.print(tostring(npDsState), 50, 175)
+	--love.graphics.print("npPgState", 50, 200)
+	--love.graphics.print(tostring(npPgState), 50, 225)
+	--love.graphics.print(fade_state, 50, 50)
+	--love.graphics.print(fadealpha, 50, 75)
+	--love.graphics.print(funnytimer, 50, 100)
+	--love.graphics.print(deathtimer, 50, 125)
+	--love.graphics.print(volume, 50, 125)
+	--love.graphics.print(volumebackup, 50, 150)
+
+	--love.graphics.setColor(255, 255,255)
+
+		--goal shit
+	if mariogoalsign then
+		if goaltimer <= 1.1 then
+			love.graphics.setColor(255, 255, 255, 255)
+		else
+			love.graphics.setColor(255, 255, 255, 0)
+			mariogoalsign = false
+			goaltimer = 0
+		end
+
+		--for i = 1, players do
+		--	mariosizes[i] = 1
+
+		local totalSize = 0
+		for i = 1, players do
+			totalSize = totalSize + mariosizes[i]
+		end
+
+		if totalSize == 1 then
+			love.graphics.draw(marioendsmall, ((player.x)*2.966), ((player.y)*66.9), 0, scale*1, scale*1, 28, 36)
+		elseif totalSize == 2 then
+			love.graphics.draw(marioendbig, ((player.x)*2.966), ((player.y)*71.3), 0, scale*1, scale*1, 28, 36)
+		elseif totalSize == 3 then
+			love.graphics.draw(marioendfire, ((player.x)*2.966), ((player.y)*71.3), 0, scale*1, scale*1, 28, 36)
+		end
+
+		--end
+	end
 end
 
 function saveconfig()
@@ -1302,8 +1476,12 @@ function saveconfig()
 		s = s .. "scale:" .. scale .. ";"
 	end
 
-	if letterboxfullscreen then
-		s = s .. "letterbox;"
+if sixteenbynine then
+		s = s .. "sixteenbynine;"
+	end
+
+	if noportalgun then
+		s = s .. "noportalgun;"
 	end
 	
 	s = s .. "shader1:" .. shaderlist[currentshaderi1] .. ";"
@@ -1352,14 +1530,47 @@ function saveconfig()
 		s = s .. "language:" .. CurrentLanguage .. ";"
 	end
 	
-	if fourbythree then
-		s = s .. "fourbythree;"
+	if sixteenbynine then
+		s = s .. "sixteenbynine;"
+	else
+		s = s .. ";"
+	end
+
+	if noportalgun then
+		s = s .. "noportalgun;"
+	else
+		s = s .. ";"
 	end
 	
 	if localnick then
 		s = s .. "localnick:" .. localnick .. ";"
 	end
 	love.filesystem.write("alesans_entities/options.txt", s)
+end
+
+function savenitpicks()
+
+	npfinal = ' '
+
+	local npbothmodif = '{		"noportalgun": false,		"dropshadow": true	}'
+
+	local npdefault = '{		"noportalgun": true,		"dropshadow": false	}'
+
+	local npbothtrue = '{		"noportalgun": true,		"dropshadow": true	}'
+
+	local npbothfalse = '{		"noportalgun": false,		"dropshadow": false	}'
+
+	if npPgState == 0 and npDsState == 0 then
+		npfinal = npbothfalse
+	elseif npPgState == 1 and npDsState == 1 then
+		npfinal = npbothtrue
+	elseif npPgState == 1 and npDsState == 0 then
+		npfinal = npdefault
+	elseif npPgState == 0 and npDsState == 1 then
+		npfinal = npbothmodif
+	end
+
+	love.filesystem.write("alesans_entities/nitpicks.json", npfinal)
 end
 
 function loadconfig(nodefaultconfig)
@@ -1445,8 +1656,10 @@ function loadconfig(nodefaultconfig)
 					scale = tonumber(s2[2])
 				end
 			end
-		elseif s2[1] == "letterbox" then
-			letterboxfullscreen = true
+elseif s2[1] == "sixteenbynine" then
+			sixteenbynine = true
+		elseif s2[1] == "noportalgun" then
+			noportalgun = true
 		elseif s2[1] == "shader1" then
 			for i = 1, #shaderlist do
 				if shaderlist[i] == s2[2] then
@@ -1492,8 +1705,10 @@ function loadconfig(nodefaultconfig)
 			else
 				resizable = true
 			end
-		elseif s2[1] == "fourbythree" then
-			fourbythree = true
+		elseif s2[1] == "sixteenbynine" then
+			sixteenbynine = true
+		elseif s2[1] == "noportalgun" then
+			noportalgun = true
 		elseif s2[1] == "language" then
 			CurrentLanguage = s2[2]
 		elseif s2[1] == "localnick" then
@@ -1537,7 +1752,7 @@ function defaultconfig()
 	controls = {}
 	
 	local i = 1
-	controlstable = {"left", "right", "up", "down", "run", "jump", "reload", "use", "aimx", "aimy", "portal1", "portal2", "pause"}
+		controlstable = {"left", "right", "up", "down", "run", "jump"--[[, "reload", "use", "aimx", "aimy", "portal1", "portal2", "pause"]]}
 	controls[i] = {}
 	controls[i]["right"] = {"d"}
 	controls[i]["left"] = {"a"}
@@ -1549,8 +1764,8 @@ function defaultconfig()
 	controls[i]["aimy"] = {""}
 	controls[i]["portal1"] = {""}
 	controls[i]["portal2"] = {""}
-	controls[i]["reload"] = {"r"}
-	controls[i]["use"] = {"e"}
+	controls[i]["reload"] = {""}
+	controls[i]["use"] = {""}
 	controls[i]["pause"] = {""}
 	
 	for i = 2, 4 do
@@ -1563,10 +1778,10 @@ function defaultconfig()
 		controls[i]["jump"] = {"joy", i-1, "but", 1}
 		controls[i]["aimx"] = {"joy", i-1, "axe", 5, "neg"}
 		controls[i]["aimy"] = {"joy", i-1, "axe", 4, "neg"}
-		controls[i]["portal1"] = {"joy", i-1, "but", 5}
-		controls[i]["portal2"] = {"joy", i-1, "but", 6}
-		controls[i]["reload"] = {"joy", i-1, "but", 4}
-		controls[i]["use"] = {"joy", i-1, "but", 2}
+		controls[i]["portal1"] = {""}
+		controls[i]["portal2"] = {""}
+		controls[i]["reload"] = {""}
+		controls[i]["use"] = {""}
 		controls[i]["pause"] = {""}
 	end
 	-------------------
@@ -1595,15 +1810,15 @@ function defaultconfig()
 	--3: skin (yellow-orange)
 	
 	mariocolors = {}
-	mariocolors[1] = {{224/255,  32/255,       0}, {136/255, 112/255,       0}, {252/255, 152/255,  56/255}}
-	mariocolors[2] = {{      1,       1,       1}, {      0, 160/255,       0}, {252/255, 152/255,  56/255}}
-	mariocolors[3] = {{      0,       0,       0}, {200/255,  76/255,  12/255}, {252/255, 188/255, 176/255}}
-	mariocolors[4] = {{ 32/255,  56/255, 236/255}, {      0, 128/255, 136/255}, {252/255, 152/255,  56/255}}
+	mariocolors[1] = {{189/255,48/255,33/255}, {0,0,198/255}, {239/255,166/255,33/255}}
+	mariocolors[2] =  {{0,190/255,0}, {0,0,198/255}, {239/255,166/255,33/255}}
+	mariocolors[3] = {{  104/255,104/255,0}, {0,0,0}, {239/255,166/255,33/255}}
+	mariocolors[4] = {{ 219/255,150/255,40/255}, {  13/255,149/255,0}, {239/255,166/255,33/255}}
 	for i = 5, players do
 		mariocolors[i] = mariocolors[math.random(4)]
 	end
 
-	mariocharacter = {"mario", "mario", "mario", "mario"}
+	mariocharacter = {"mario", "luigi", "mario", "luigi"}
 	
 	--options
 	scale = 2
@@ -1613,7 +1828,8 @@ function defaultconfig()
 	mappack = "smb"
 	vsync = false
 	mappackfolder = "mappacks"
-	fourbythree = false
+sixteenbynine = false
+	noportalgun = true
 	localnick = false
 	
 	reachedworlds = {}
@@ -1953,15 +2169,24 @@ function love.keypressed(key, scancode, isrepeat, textinput)
 	
 	if key == "0" and HITBOXDEBUG then
 		HITBOXDEBUGANIMS = not HITBOXDEBUGANIMS
-	elseif key == "f10" then
-		if android then
-			--hide ui
-			androidHIDE = not androidHIDE
-		else
-			HITBOXDEBUG = not HITBOXDEBUG
-		end
+	elseif key == "f10" and gamefinished then
+	--	if android then
+	--		--hide ui
+	--		androidHIDE = not androidHIDE
+	--	else
+	--		HITBOXDEBUG = not HITBOXDEBUG
+	--	end
+	--notice.new("you hit f10, level editor timeee", notice.white, 5)
+		editormode = true
+		players = 1
+		playertype = "portal"
+		playertypei = 1
+		disablecheats()
+		loadeditormetadata()
+		game_load()
 	elseif key == "f11" then
-		showfps = not showfps
+--		showfps = not showfps
+		HITBOXDEBUG = not HITBOXDEBUG
 	elseif key == "f12" then
 		love.mouse.setGrabbed(not love.mouse.isGrabbed())
 	end
@@ -1971,13 +2196,13 @@ function love.keypressed(key, scancode, isrepeat, textinput)
 		if key == konami[konamii] or (android and key == androidkonami[konamii]) then--[[DROID]]
 			konamii = konamii + 1
 			if konamii == #konami+1 then
-				if not konamisound:isPlaying() then
-					playsound(konamisound)
-				end
+			--	if not konamisound:isPlaying() then
+			--		playsound(konamisound)
+			--	end
 				gamefinished = true
 				saveconfig()
 				konamii = 1
-				notice.new("Cheats unlocked!", notice.white, 5)
+				notice.new("Level editor unlocked, press F10 to access", notice.white, 5)
 			end
 		else
 			konamii = 1
@@ -2468,12 +2693,13 @@ function print_r (t, indent) --Not by me
 	end
 end
 
-function love.focus(f)
-	if (not f) and gamestate == "game"and (not editormode) and (not testlevel) and (not levelfinished) and (not everyonedead) and (not CLIENT) and (not SERVER) and (not dontPauseOnUnfocus) then
-		pausemenuopen = true
-		pausedaudio = love.audio.pause()
-	end
-end
+--function love.focus(f)
+--	if (not f) and gamestate == "game"and (not editormode) and (not testlevel) and (not levelfinished) and (not everyonedead) and (not CLIENT) and (not SERVER) and (not dontPauseOnUnfocus) then
+--		pausemenuopen = true
+--		pausedaudio = love.audio.pause()
+--			playsound(pausesound)
+--	end
+--end
 
 function openSaveFolder(subfolder) --By Slime
 	local path = love.filesystem.getSaveDirectory()
@@ -2488,9 +2714,9 @@ function openSaveFolder(subfolder) --By Slime
 	elseif os.getenv("WINDIR") then -- lolwindows
 		--cmdstr = "Explorer /root,%s"
 		if path:match("LOVE") then --hardcoded to fix ISO characters in usernames and made sure release mode doesn't mess anything up -saso
-			cmdstr = "Explorer %%appdata%%\\LOVE\\mari0"
+			cmdstr = "Explorer %%appdata%%\\LOVE\\mari0_smbcd"
 		else
-			cmdstr = "Explorer %%appdata%%\\mari0"
+			cmdstr = "Explorer %%appdata%%\\mari0_smbcd"
 		end
 		path = path:gsub("/", "\\")
 		successval = 1
@@ -2619,6 +2845,29 @@ function properprintfbackground(s, x, y, include, color, size)
 		end
 	end
 end
+function properprintmbackground(s, x, y, include, color, size)
+	--UTF-8 outline
+	if s then
+		local size = size or 1
+		local startx, starty = x, y
+		for i, char, b in utf8.chars(tostring(s)) do
+			if char == " " then
+			elseif char == "\n" then
+				x = startx-((i)*(8*size))*scale
+				y = y + (10*size)*scale
+			elseif fontquadsback[char] then
+				love.graphics.draw(fontbackmenuimage, fontquadsback[char], x+((i-1)*(8*size)-1*size)*scale, y-(1*size)*scale, 0, size*scale, size*scale)
+			end
+		end
+
+		if include ~= false then
+			if color then
+				love.graphics.setColor(color)
+			end
+			properprintf(s, startx, starty, size)
+		end
+	end
+end
 function properprintF(s, x, y, size)
 	--UTF-8 CAPITALS
 	if s then
@@ -2650,6 +2899,29 @@ function properprintFbackground(s, x, y, include, color, size)
 			end
 		end
 		
+		if include ~= false then
+			if color then
+				love.graphics.setColor(color)
+			end
+			properprintF(s, startx, starty, size)
+		end
+	end
+end
+function properprintMbackground(s, x, y, include, color, size)
+	--UTF-8 CAPITALS OUTLINE
+	if s then
+		local size = size or 1
+		local startx, starty = x, y
+		for i, char, b in utf8.chars(tostring(s)) do
+			if char == " " then
+			elseif char == "\n" then
+				x = startx-((i)*(8*size))*scale
+				y = y + (10*size)*scale
+			elseif fontquadsback[char] then
+				love.graphics.draw(fontbackmenuimage, fontquadsback[fontindexCAP[char]], x+((i-1)*(8*size)-1*size)*scale, y-(1*size)*scale, 0, size*scale, size*scale)
+			end
+		end
+
 		if include ~= false then
 			if color then
 				love.graphics.setColor(color)
@@ -2869,9 +3141,9 @@ function loadnitpicks()
 		ForceDropShadow = t.dropshadow or t.forcedropshadow
 		AutoAssistMode = t.assistmode
 		--also available in settings.txt
-		if t.fourbythree then
-			fourbythree = true
-			if fourbythree then	width = 16 else width = 25 end
+		if t.sixteenbynine then
+			sixteenbynine = true
+			if sixteenbynine then	width = 25 else width = 16 end
 			if scale == 2 and resizable then changescale(5, fullscreen)
 			else changescale(scale, fullscreen) end
 		end
@@ -2886,6 +3158,7 @@ function loadnitpicks()
 		DisableToolTips = t.disabletooltips
 		DisableMouseInMainMenu = t.disablemouseinmainmenu
 		if t.noportalgun then
+			noportalgun = true
 			playertypei = 5
 			playertype = playertypelist[playertypei]
 		end

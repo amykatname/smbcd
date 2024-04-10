@@ -1421,14 +1421,18 @@ function mario:update(dt)
 				self.gravity = self.characterdata.yacceleration
 				self.animationstate = "running"
 				self.animationdirection = "right"
-				self.speedx = 4.27
+				self.speedx = (4.27)*1.2501324142
 				self.pointingangle = -math.pi/2
 			end
 		else
 			self.animationtimer = self.animationtimer + dt
 		end
 		
-		local add = 6
+		if marioworld == 1 and mariolevel == 2 then
+			add = 12
+		else
+			add = 11
+		end
 
 		self.flagtimer = self.flagtimer + dt
 		if (self.flagtimer > 8 and (self.active or self.fireenemyride)) and not (subtractscore or castleflagmove) then
@@ -1444,8 +1448,13 @@ function mario:update(dt)
 			end
 		end
 		
+		if self.flagtimer >= 5.1 then
+			fade_state = "Fade_To_Black"
+		end
+		
 		if (self.x >= flagx + add and self.active) or (self.speedx == 0 and self.animationstate ~= "climbing" and self.active) then
 			self.drawable = false
+			mariogoalsign = true
 			self.active = false
 			if mariotime > 0 then
 				playsound(scoreringsound)
@@ -1642,6 +1651,7 @@ function mario:update(dt)
 			if self.animationtimer > deathanimationjumptime then
 				if self.animationtimer - dt < deathanimationjumptime then
 					self.speedy = -deathanimationjumpforce
+					deathtimer = 2
 				end
 				self.speedy = self.speedy + deathgravity*dt
 				self.y = self.y + self.speedy*dt
@@ -1730,7 +1740,7 @@ function mario:update(dt)
 	elseif self.animation == "shrink" then
 		self.animationtimer = self.animationtimer + dt
 		--set frame lol
-		local frame = math.ceil(math.fmod(self.animationtimer, growframedelay*3)/shrinkframedelay)
+		local frame = math.ceil(math.fmod(self.animationtimer, growframedelay*4)/shrinkframedelay)
 		self:updateangle()
 	
 		if frame == 1 then
@@ -5007,13 +5017,13 @@ function mario:stompenemy(a, b)
 					local grav = self.gravity or yacceleration
 					
 					local bouncespeed = math.sqrt(2*grav*bounceheight)
-					if mariomakerphysics and (not portalphysics) then
+					--if mariomakerphysics and (not portalphysics) then
 						bouncespeed = math.sqrt(2*grav*bounceheighthigh)
 						self.jumping = true
 						if not jumpkey(self.playernumber) then --bounce higher in mario maker physics
 							bouncespeed = math.sqrt(2*grav*bounceheightmaker)
 							self:stopjump()
-						end
+						--end
 					end
 					
 					self.speedy = -bouncespeed
@@ -5087,13 +5097,13 @@ function mario:stompenemy(a, b)
 				end
 				
 				local bouncespeed = math.sqrt(2*grav*bounceheight)
-				if mariomakerphysics and (not portalphysics) then
+				--if mariomakerphysics and (not portalphysics) then
 					bouncespeed = math.sqrt(2*grav*bounceheighthigh)
 					self.jumping = true
 					if not jumpkey(self.playernumber) then --bounce higher in mario maker physics
 						bouncespeed = math.sqrt(2*grav*bounceheightmaker)
 						self:stopjump()
-					end
+				--	end
 				end
 				
 				self.speedy = -bouncespeed
@@ -5157,13 +5167,13 @@ function mario:stompenemy(a, b)
 		end
 
 		local bouncespeed = math.sqrt(2*grav*bounceheight)
-		if mariomakerphysics and (not portalphysics) then
+		--if mariomakerphysics and (not portalphysics) then
 			bouncespeed = math.sqrt(2*grav*bounceheighthigh)
 			self.jumping = true
 			if not jumpkey(self.playernumber) then --bounce higher in mario maker physics
 				bouncespeed = math.sqrt(2*grav*bounceheightmaker)
 				self:stopjump()
-			end
+			--end
 		end
 
 		if self.gravitydir == "up" then
@@ -5189,7 +5199,7 @@ function mario:stompbounce(a, b) --bounce off of enemy (koopaling in shell for e
 	end
 	
 	local bouncespeed = math.sqrt(multiplier*grav*bounceheight)
-	if (not stompbouncex) and a ~= "yoshi" and mariomakerphysics and (not portalphysics) then
+	if (not stompbouncex) and a ~= "yoshi" --[[and mariomakerphysics and (not portalphysics)]] then
 		bouncespeed = math.sqrt(2*grav*(b.stompbouncejump or bounceheighthigh))
 		self.jumping = true
 		if not jumpkey(self.playernumber) then --bounce higher in mario maker physics
@@ -7342,6 +7352,7 @@ function mario:die(how)
 		self.size = 1
 		self.drawable = false
 		self.invincible = false
+		deathtimer = 2
 	else
 		self.animation = "death"
 		self.ignoresize = true --don't return as mini-mario

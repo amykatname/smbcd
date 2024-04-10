@@ -603,9 +603,9 @@ function loadquads(initial)
 	
 	--coin
 	coinquads = {}
-	for j = 1, 4 do
+	for j = 1, 12 do
 		coinquads[j] = {}
-		for i = 1, 5 do
+		for i = 1, 13 do
 			coinquads[j][i] = love.graphics.newQuad((i-1)*16, (j-1)*16, 16, 16, 80, 64)
 		end
 	end
@@ -1409,7 +1409,7 @@ function loadquads(initial)
 	end
 end
 
-local SPRITESfixcoin, SPRITESfixcoinblock, SPRITESfixplatform, SPRITESfixseesaw, SPRITESfixpushbutton, SPRITESfixplant, SPRITESfixcheepcheep,
+local --[[SPRITESfixcoin,]] SPRITESfixcoinblock, SPRITESfixplatform, SPRITESfixseesaw, SPRITESfixpushbutton, SPRITESfixplant, SPRITESfixcheepcheep,
 	SPRITESfixyoshi, SPRITESfixsquid, SPRITESfixcheepcheep, SPRITESfixsquidbaby, SPRITESfixkoopaling, SPRITESfixfont, SPRITESfixredseesaw, SPRITESfixgrinder, SPRITESfixaxe
 function fixsprites(reset)
 	--BAD. Should be re-coded later.

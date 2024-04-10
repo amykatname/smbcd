@@ -331,6 +331,7 @@ entitylist = {
 	{t="grinder"},
 	{t="bowserjr", spawnable=true, supersize=true},
 	{t="trackswitch"},
+	{t="smbcdsublevel"},
 }
 
 --only spawnable with spawner or by enemies
@@ -721,6 +722,7 @@ entitydescriptions = {
 	"place anywhere - grinder", --"grinder",
 	"place on empty tile - bowser jr.", --"bowserjr",
 	"place anywhere - track switch - right click for path", --"trackswitch",
+	"my balls", --"smbcdsublevel",
 }
 
 rightclickvalues = {}
@@ -2239,6 +2241,46 @@ rightclicktype["plusclock"] = {
 		"time:",
 		{"slider", 1, range = {10, 300, step = 10}},
 	}
+}
+
+rightclicktype["smbcdsublevel"] = {
+	name = "smbcdsublevel",
+	default = "overworld|1|true",
+varfunc = function(v, i)
+		if i == 1 then
+			local f = 1
+			local t = musictable
+			v = readlevelfilesafe(v)
+			for i = 1, #t do --print(v,t[i])
+				if v == t[i] then
+					f = i
+					break
+				end
+			end
+			return f
+		end
+		return v
+	end,
+	objfunc = function()
+		rightclicktype["musicchanger"].t = musictable
+		rightclickobjects[3].entries = editormusictable
+		rightclickobjects[3]:updatePos()
+	end,
+	savefunc = function()
+		if tonumber(rightclickvalues2[1]) then
+			rightclickvalues2[1] = musictable[rightclickvalues2[1]]
+		end
+		rightclickvalues2[1] = makelevelfilesafe(rightclickvalues2[1])
+	end,
+	format = {
+		{"checkbox", 3, "visible"},
+		"change music to",
+		{"dropdown", 1, 15, function(v) rightclickobjects[3].var = v; rightclickvalues2[1] = rightclicktype["musicchanger"].t[v] end, {"overworld", "underground", "castle", "underwater", "star", "custom", "none"}}, --"dropdown", var, width (in chars), func, {entries}
+		"custom music id",
+		{"input", 2, "1", 2, 2, 1, function(v) rightclickvalues2[2] = v end},
+		{"button", 2, {"link trigger", startrclink}, {"x", resetrclink, textcolor = {255, 0, 0}}},
+	},
+	t = {"overworld", "underground", "castle", "underwater", "star", "custom", "none"}
 }
 
 function entity:init(img, x, y, width, height)

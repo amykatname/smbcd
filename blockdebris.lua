@@ -17,7 +17,7 @@ end
 
 function blockdebris:update(dt)
 	if dropshadow then
-		self.rotation = self.rotation + self.speedx*math.pi*dt
+		--self.rotation = self.rotation + self.speedx*math.pi*dt
 	elseif not self.noframes then
 		self.timer = self.timer + dt
 		while self.timer > blockdebrisanimationtime do

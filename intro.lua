@@ -3,9 +3,9 @@ local intro_finish
 function intro_load()
 	gamestate = "intro"
 
-	famicomcdlogo_duration = 9.3
+	famicomcdlogo_duration = famicomcdlogo_introsound:getDuration('seconds') + 1
 	
-	introduration = famicomcdlogo_duration + 3
+	introduration = famicomcdlogo_duration + 2
 	blackafterintro = 0.3
 	introfadetime = 0.5
 	introprogress = 0
@@ -43,6 +43,9 @@ function intro_draw()
 	else
 		logoscale = 1
 	end
+
+	logoscale = logoscale*0.12
+
 	if introprogress >= 0 and introprogress < introduration then
 		local a = 255
 		if introprogress < introfadetime then
@@ -52,33 +55,14 @@ function intro_draw()
 		end
 		
 		love.graphics.setColor(255, 255, 255, a)
-		
-		if FamilyFriendly then
-			--"If you create a minor update that's in game options make you remove the stabyourself logo?????"
-			--"Stabyourself logo is not rated for everyone"
-			--"If make a really free for everyone version for mari0 AE many kids will like this news"
-			--"The stick man dies in the screen"
-			
-			if introprogress > introfadetime+0.3 and introprogress < introduration - introfadetime then
-				local y = (introprogress-0.2-introfadetime) / (introduration-2*introfadetime) * 206 * 5
-				properprint("stys.eu", ((width*16)*scale)/2-string.len("stys.eu")*4*scale, 110*scale)
-				love.graphics.setScissor(0, screenheight/2+150*logoscale - y, screenwidth, y)
-				love.graphics.setColor(100, 100, 100, a)
-				properprint("stys.eu", ((width*16)*scale)/2-string.len("stys.eu")*4*scale, 110*scale)
-				love.graphics.setColor(255, 255, 255, a)
-				properprint("stys.eu", ((width*16)*scale)/2-string.len("stys.eu")*4*scale, 109*scale)
-				love.graphics.setScissor()
-			elseif introprogress >= introduration - introfadetime then
-				love.graphics.setColor(100, 100, 100, a)
-				properprint("stys.eu", ((width*16)*scale)/2-string.len("stys.eu")*4*scale, 110*scale)
-				love.graphics.setColor(255, 255, 255, a)
-				properprint("stys.eu", ((width*16)*scale)/2-string.len("stys.eu")*4*scale, 109*scale)
-			else
-				properprint("stys.eu", ((width*16)*scale)/2-string.len("stys.eu")*4*scale, 110*scale)
-			end
-		else
-			love.graphics.draw(logo, screenwidth/2, screenheight/2, 0, logoscale, logoscale, 142, 150)
-		end
+
+		love.graphics.rectangle("fill", 0,0, love.graphics.getWidth(), love.graphics.getHeight())
+
+		logoWidth, logoHeight = logo:getDimensions()
+
+		love.graphics.draw(
+			logo, screenwidth/2, screenheight/2, 0, logoscale, logoscale, logoWidth/2, logoHeight/2
+		)
 		
 		local a2 = math.max(0, (1-(introprogress-.5)/0.3)*255)
 		love.graphics.setColor(150, 150, 150, a2)

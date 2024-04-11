@@ -16,7 +16,7 @@ function intro_load()
 end
 
 function intro_update(dt)
-	allowskip = false
+	allowskip = true
 	if introprogress < introduration+blackafterintro then
 		introprogress = introprogress + dt
 		if introprogress > introduration+blackafterintro then

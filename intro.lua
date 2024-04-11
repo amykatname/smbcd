@@ -8,7 +8,7 @@ function intro_load()
 	introduration = famicomcdlogo_duration + 2
 	blackafterintro = 0.3
 	introfadetime = 0.5
-	introprogress = 0
+	introprogress = -0.5
 	
 	screenwidth = width*16*scale
 	screenheight = 224*scale
@@ -23,7 +23,7 @@ function intro_update(dt)
 			introprogress = introduration+blackafterintro
 		end
 		
-		if introprogress > 0.5 and playedwilhelm == nil then
+		if introprogress > 0.1 and playedwilhelm == nil then
 			playsound(famicomcdlogo_introsound)
 			
 			playedwilhelm = true
@@ -63,15 +63,6 @@ function intro_draw()
 		love.graphics.draw(
 			logo, screenwidth/2, screenheight/2, 0, logoscale, logoscale, logoWidth/2, logoHeight/2
 		)
-		
-		local a2 = math.max(0, (1-(introprogress-.5)/0.3)*255)
-		love.graphics.setColor(150, 150, 150, a2)
-		properprint("loading mari0..", love.graphics.getWidth()/2-string.len("loading mari0..")*4*scale, 20*scale)
-		love.graphics.setColor(50, 50, 50, a2)
-		properprint(loadingtext, love.graphics.getWidth()/2-string.len(loadingtext)*4*scale, love.graphics.getHeight()/2+165*logoscale)
-
-		love.graphics.setColor(255,255,255, a2)
-		love.graphics.rectangle("fill", 0, (height*16-3)*scale, (width*16)*scale, 3*scale)
 	end
 end
 

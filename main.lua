@@ -991,8 +991,8 @@ function love.load()
 	glados2sound = love.audio.newSource("sounds/glados2.ogg", "static")
 	
 	famicomcdlogo_introsound = love.audio.newSource("sounds/famicomcd_logo.wav", "stream")
-	titlemusic = love.audio.newSource("sounds/title.ogg", "static")
-	optionsmusic = love.audio.newSource("sounds/options.ogg", "static");optionsmusic:setLooping(true)
+	titlemusic = love.audio.newSource("sounds/title.ogg", "stream")
+	optionsmusic = love.audio.newSource("sounds/options.ogg", "stream");optionsmusic:setLooping(true)
 	barry = love.audio.newSource("sounds/barry.ogg", "static")
 	barrythereal = love.audio.newSource("sounds/barryeditor.ogg", "static")
 	

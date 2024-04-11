@@ -24,9 +24,7 @@ function intro_update(dt)
 		end
 		
 		if introprogress > 0.5 and playedwilhelm == nil then
-			if math.random(300) == 1 then
-				playsound(babysound)
-			end
+			playsound(famicomcdlogo_introsound)
 			
 			playedwilhelm = true
 		end

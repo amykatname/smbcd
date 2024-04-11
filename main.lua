@@ -183,6 +183,8 @@ function love.load()
 --	logo = love.graphics.newImage("graphics/stabyourself.png") --deleted later to save memory
 --	logoblood = love.graphics.newImage("graphics/stabyourselfblood.png")
 
+	logo = love.graphics.newImage("graphics/famicomcdlogo.png")
+
 	--menu shit
 	graphicmario = love.graphics.newImage("graphics/mario.png")
 	graphicluigi = love.graphics.newImage("graphics/luigi.png")

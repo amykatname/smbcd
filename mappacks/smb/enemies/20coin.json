@@ -1,0 +1,48 @@
+{
+	"quadcount": 4,
+	
+	"animationtype": "frames",
+	"animationframes": 4,
+	"animationstart": 1,
+	"animationspeed": 0.15,
+
+	"movement": "none",
+	"kills": false,
+
+	"transforms": true,
+	"transformsinto": "pling",
+	"transformtrigger": "death",
+
+	"width": 1,
+	"height": 1,
+	
+	"spawnoffsety": 0.0,
+ 
+	"static": true,
+	"active": true,
+ 
+	"mask": [	true,
+				false, false, true, true, true,
+				false, true, false, true, true,
+				false, true, true, false, true,
+				true, true, false, true, true,
+				false, true, true, false, false,
+				true, false, true, true, true],
+ 
+	"emancipatecheck": false,
+	"autodelete": false,
+	"regiontriggerexclude": true,
+	
+	"removeonmariocontact": true,
+	"givecoinondeath": 20,
+	"deathsound": "coin",
+	
+	"resistseverything": true,
+ 
+	"offsetX": 8,
+	"offsetY": 0,
+	"quadcenterX": 8,
+	"quadcenterY": 8,
+ 
+	"nospritesets": true
+}

@@ -1,3 +1,0 @@
-name=portal
-author=stabyourself
-description=cake and mushrooms will be served at the conclusion of the test.

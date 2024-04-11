@@ -1,0 +1,60 @@
+{
+	"quadcount": 2,
+
+	"spawnoffsetx": 0.5,
+	"spawnoffsety": 1.4,
+
+	"animationtype": "frames",
+	"animationframes": 2,
+	"animationstart": 1,
+	"animationspeed": 0.15,
+	
+	"nospritesets": true,
+	
+	"resistsfire": false,
+	"transforms": true,
+	"transformsinto": "poof",
+	"transformtrigger": "death",
+	"kills": true,
+	
+	"movement": "path",
+	"movementpath": [
+		[0,-0.1],
+		[0,-4],[0,-5.6],[0,-5.9],[0,-6],
+		[0,-5.9],[0,-5.6],[0,-5],[0,0]
+	],
+	"movementpathspeed": [
+		0.1,
+		8, 6, 3, 1,
+		0.4, 1, 1.6, 2
+	],
+	"lifetime": 5.5,
+	
+	"width": 0.75,
+	"height": 1,
+	"static": true,
+	"active": true,
+	"category": 5,
+	
+	"mask": [	true, 
+				false, false, false, false, true,
+				false, true, false, true, false,
+				false, false, true, false, false,
+				true, true, false, false, true,
+				false, true, true, false, false,
+				true, false, true, true, true,
+				false],
+				
+	"autodelete": false,
+
+	"customscissor": [-0.5, 1, 2, 2],
+	"invertedscissor": true,
+	"facesplayer": true,
+	
+	"offsetX": 6,
+	"offsetY": 3,
+	"quadcenterX": 8,
+	"quadcenterY": 8,
+
+	"hidden": true
+}

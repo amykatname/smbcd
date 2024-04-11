@@ -3,10 +3,10 @@ local intro_finish
 function intro_load()
 	gamestate = "intro"
 	
-	introduration = 2.5
-	blackafterintro = 0.3
-	introfadetime = 0.5
-	introprogress = 0.5
+	introduration = 0
+	blackafterintro = 0
+	introfadetime = 0
+	introprogress = 0
 	
 	screenwidth = width*16*scale
 	screenheight = 224*scale
@@ -35,6 +35,7 @@ function intro_update(dt)
 --			intro_finish()
 --		end
 --	end
+	intro_finish()
 end
 
 function intro_draw()

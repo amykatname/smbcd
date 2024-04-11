@@ -71,14 +71,14 @@ androidtest = false--testing android on pc
 
 local loadingbarv = 0 --0-1
 local loadingbardraw = function(add)
-	love.graphics.clear()
-	love.graphics.push()
-	if android then
-		love.graphics.scale(winwidth/(width*16*scale), winheight/(224*scale))
-		sixteenbynine = true
-		width = 25
-		changescale(scale)
-	end
+--	love.graphics.clear()
+--	love.graphics.push()
+--	if android then
+--		love.graphics.scale(winwidth/(width*16*scale), winheight/(224*scale))
+--		sixteenbynine = true
+--		width = 25
+--		changescale(scale)
+--	end
 --	love.graphics.setColor(150/255, 150/255, 150/255)
 --	properprint("loading mari0..", ((width*16)*scale)/2-string.len("loading mari0..")*4*scale, 20*scale)
 --	love.graphics.setColor(50/255, 50/255, 50/255)
@@ -96,12 +96,12 @@ local loadingbardraw = function(add)
 --		love.graphics.setColor(1, 1, 1)
 --		love.graphics.draw(logo, ((width*16)*scale)/2, ((height*16)*scale)/2, 0, scale2, scale2, 142, 150)
 --	end
-
+--
 --	loadingbarv = loadingbarv + (add)/(8)
 --	love.graphics.setColor(1,1,1)
 --	love.graphics.rectangle("fill", 0, (height*16-3)*scale, (width*16*loadingbarv)*scale, 3*scale)
-	love.graphics.pop()
-	love.graphics.present()
+--	love.graphics.pop()
+--	love.graphics.present()
 end
 
 function love.load()
@@ -179,8 +179,8 @@ function love.load()
 	
 	love.graphics.setBackgroundColor(0, 0, 0)
 	
---	logo = love.graphics.newImage("graphics/stabyourself.png") --deleted later to save memory
---	logoblood = love.graphics.newImage("graphics/stabyourselfblood.png")
+	logo = love.graphics.newImage("graphics/stabyourself.png") --deleted later to save memory
+	logoblood = love.graphics.newImage("graphics/stabyourselfblood.png")
 
 	--menu shit
 	graphicmario = love.graphics.newImage("graphics/mario.png")
@@ -1345,10 +1345,10 @@ function lovedraw()
 	love.graphics.setColor(1, 1, 1)
 	
 	--FADE SHIT YET AGAIN
-	love.graphics.setColor(0, 0, 0, fadealpha*255)
+	love.graphics.setColor(0, 0, 0, fadealpha)
 	love.graphics.rectangle("fill", 0*scale, 0*scale, width*16*scale, 256*scale)
 
---	love.graphics.setColor(255, 255, 255, 255) --printing shit
+--	love.graphics.setColor(1, 1, 1, 1) --printing shit
 --	love.graphics.print(Barrycounter, 50, 50)
 --	love.graphics.print(subleveltimer, 50, 50)
 --	love.graphics.print(goaltimer, 50, 50)
@@ -1361,21 +1361,21 @@ function lovedraw()
 	--love.graphics.print(tostring(npDsState), 50, 175)
 	--love.graphics.print("npPgState", 50, 200)
 	--love.graphics.print(tostring(npPgState), 50, 225)
-	--love.graphics.print(fade_state, 50, 50)
-	--love.graphics.print(fadealpha, 50, 75)
-	--love.graphics.print(funnytimer, 50, 100)
+--	love.graphics.print(fade_state, 50, 50)
+--	love.graphics.print(fadealpha, 50, 75)
+--	love.graphics.print(funnytimer, 50, 100)
 	--love.graphics.print(deathtimer, 50, 125)
 	--love.graphics.print(volume, 50, 125)
 	--love.graphics.print(volumebackup, 50, 150)
 
-	--love.graphics.setColor(255, 255,255)
+	--love.graphics.setColor(1, 1,1)
 
 		--goal shit
 	if mariogoalsign then
 		if goaltimer <= 1.1 then
-			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.setColor(1, 1, 1, 1)
 		else
-			love.graphics.setColor(255, 255, 255, 0)
+			love.graphics.setColor(1, 1, 1, 0)
 			mariogoalsign = false
 			goaltimer = 0
 		end
@@ -2258,11 +2258,11 @@ function love.mousepressed(x, y, button, istouch)
 	end
 	
 	if gamestate == "menu" or gamestate == "mappackmenu" or gamestate == "onlinemenu" or gamestate == "lobby" or gamestate == "options" then
-		menu_mousepressed(x, y, button)
+--		menu_mousepressed(x, y, button)
 	elseif gamestate == "game" then
-		game_mousepressed(x, y, button)
+--		game_mousepressed(x, y, button)
 	elseif gamestate == "intro" then
-		intro_mousepressed()
+--		intro_mousepressed()
 	end
 	
 	--animations priorities
@@ -2335,9 +2335,9 @@ function love.mousereleased(x, y, button, istouch)
 	end
 
 	if gamestate == "menu" or gamestate == "options" or gamestate == "mappackmenu" then
-		menu_mousereleased(x, y, button)
+--		menu_mousereleased(x, y, button)
 	elseif gamestate == "game" then
-		game_mousereleased(x, y, button)
+--		game_mousereleased(x, y, button)
 	end
 	
 	if ignoregui then
@@ -2372,9 +2372,7 @@ function love.mousemoved(x, y, dx, dy, istouch)
 		x, y = x/(winwidth/gamewidth), y/(winheight/gameheight)
 		dx, dy = dx/(winwidth/gamewidth), dy/(winheight/gameheight)
 	end
-	if gamestate == "menu" or gamestate == "options" or gamestate == "mappackmenu" then
-		menu_mousemoved(x, y, dx, dy)
-	elseif gamestate == "game" then
+	if gamestate == "game" then
 		if editormode then
 			editor_mousemoved(x, y, dx, dy)
 		end
@@ -3240,32 +3238,32 @@ end
 
 --sausage (don't ask)
 function dothesausage(i)
-	if i then
-		if i == 1 and sausagesound then
-			titleimage = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/title.png")
-			goombaimage = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/goomba.png")
-			goombaimageframes = math.floor(goombaimage:getWidth()/16)
-			goombaquad = {}
-			for y = 1, 4 do
-				goombaquad[y] = {}
-				for x = 1, goombaimageframes do
-					goombaquad[y][x] = love.graphics.newQuad((x-1)*16, (y-1)*16, 16, 16, goombaimage:getWidth(), 64)
-				end
-			end
-			plantimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/plant.png")
-			axeimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/axe.png")
-			castleflagimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/castleflag.png")
-			peachimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/peach.png")
-			toadimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/toad.png")
-			starimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/star.png")
-			love.graphics.setBackgroundColor(0, 0, 0)
-		end
-	else
-		if sausagesound then
-			playsound(sausagesound)
-			sausagesound = nil
-		end
-	end
+--	if i then
+--		if i == 1 and sausagesound then
+--			titleimage = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/title.png")
+--			goombaimage = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/goomba.png")
+--			goombaimageframes = math.floor(goombaimage:getWidth()/16)
+--			goombaquad = {}
+--			for y = 1, 4 do
+--				goombaquad[y] = {}
+--				for x = 1, goombaimageframes do
+--					goombaquad[y][x] = love.graphics.newQuad((x-1)*16, (y-1)*16, 16, 16, goombaimage:getWidth(), 64)
+--				end
+--			end
+--			plantimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/plant.png")
+--			axeimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/axe.png")
+--			castleflagimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/castleflag.png")
+--			peachimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/peach.png")
+--			toadimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/toad.png")
+--			starimg = love.graphics.newImage("graphics/" .. graphicspack .. "/nippon/star.png")
+--			love.graphics.setBackgroundColor(0, 0, 0)
+--		end
+--	else
+--		if sausagesound then
+--			playsound(sausagesound)
+--			sausagesound = nil
+--		end
+--	end
 end
 
 function shallowcopy(orig)

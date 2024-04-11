@@ -1562,7 +1562,7 @@ function game_draw()
 
 				love.graphics.draw(smbspritebatch[2], math.floor((-(xoff-math.floor(xscroll))*16)*scale), math.floor((-(yoff-math.floor(yscroll))*16)*scale))
 				love.graphics.pop()
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(1,1,1,1)
 			end
 			if editormode then
 				love.graphics.setColor(1,1,1,100/255)
@@ -2305,7 +2305,7 @@ function game_draw()
 			w:draw()
 		end
 
-		love.graphics.setColor(1, 1, 255)
+		love.graphics.setColor(1/2555, 1/255, 255/255)
 		
 		--portals
 		for i, v in pairs(portals) do
@@ -2865,23 +2865,23 @@ function game_draw()
 	
 	--pause menu
 	if pausemenuopen then
-		love.graphics.setColor(0, 0, 0, 2)
+		love.graphics.setColor(0, 0, 0, 2/255)
 		--love.graphics.setColor(0, 0, 0, 100)
 		love.graphics.rectangle("fill", 0, 0, width*16*scale, height*16*scale)
 
 		love.graphics.setColor(0, 0, 0, 0)
 		--love.graphics.setColor(0, 0, 0)
 		love.graphics.rectangle("fill", (width*8*scale)-50*scale, (112*scale)-75*scale, 100*scale, 150*scale)
-		love.graphics.setColor(255, 255, 255, 0)
+		love.graphics.setColor(1, 1, 1, 0)
 		--love.graphics.setColor(255, 255, 255)
 		drawrectangle(width*8-49, 112-74, 98, 148)
 
 		for i = 1, #pausemenuoptions do
-			love.graphics.setColor(100, 100, 100, 0)
+			love.graphics.setColor(100/255, 100/255, 100/255, 0)
 			--love.graphics.setColor(100, 100, 100, 255)
 			if pausemenuselected == i and not menuprompt and not desktopprompt then
-				love.graphics.setColor(255, 255, 255, 0)
-				--love.graphics.setColor(255, 255, 255, 255)
+				love.graphics.setColor(1, 1, 1, 0)
+				--love.graphics.setColor(1, 1, 1, 1)
 				properprint(">", (width*8*scale)-45*scale, (112*scale)-60*scale+(i-1)*25*scale)
 			end
 			if dcplaying and pausemenuoptions[i] == "suspend" then --restart instead of suspend
@@ -2905,7 +2905,7 @@ function game_draw()
 		end
 		
 		if menuprompt then
-		love.graphics.setColor(15, 12, 30, 127)
+		love.graphics.setColor(15/255, 12/255, 30/255, 127/255)
 			love.graphics.rectangle("fill", 0*scale, 0*scale, 512*scale, 512*scale)
 			--before is bg
 			love.graphics.setColor(0, 0, 0, 1)
@@ -8722,7 +8722,8 @@ if not sixteenbynine then
 	if i == 2 then --centered
 		scrollingstart = (width/2)+.5
 		scrollingcomplete = (width/2)-1.5
-@@ -8648,6 +8817,17 @@ function setcamerasetting(i)
+		scrollingleftstart = (width/2)+1
+		scrollingleftcomplete = (width/2)-2
 	elseif i == 3 then
 
 	end
@@ -8731,7 +8732,12 @@ else
 		-- custom, makes 16:9 accurate
 		scrollingstartv = (width/2+3.3)+.5
 		scrollingcompletev = (width/2+2.8)-1.5
+
+		--scrollingleftstartv = (width/2-11)
+		--scrollingleftcompletev = (width/2-11)
+
 end
+
 end
 
 function createedgewrap() --create blocks on borders for edge wrapping
@@ -8950,10 +8956,10 @@ if dropshadow then
 --[[dshadow]]	love.graphics.setColor(dropshadowcolor)
 --[[dshadow]]	love.graphics.draw(custombackgroundimg[i], custombackgroundquad[i], 0, 0, 0, scale, scale)
 --[[shadow]]love.graphics.pop()
---[[shadow]]love.graphics.setColor(255,255,255,255)
+--[[shadow]]love.graphics.setColor(1,1,1,1)
 				end
 				love.graphics.draw(custombackgroundimg[i], custombackgroundquad[i], 0, 0, 0, scale, scale)
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(1,1,1,1)
 			else
 				for y = min, math.ceil(height/custombackgroundheight[i])+1 do
 					for x = min, math.ceil(width/custombackgroundwidth[i])+1 do

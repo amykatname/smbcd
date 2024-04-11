@@ -1,3 +1,7 @@
 name=super mario bros.
 author=nintendo
 description=classic levels
+lives=3
+physics=2
+dropshadow=t
+continuesublevelmusic=t

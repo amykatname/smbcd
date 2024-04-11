@@ -1,0 +1,52 @@
+{
+	"quadcount": 6,
+	
+	"animationtype": "frames",
+	"animationframes": 6,
+	"animationstart": 1,
+	"animationspeed": 0.125,
+
+	"spawnsenemy": "cdcoin",
+	"spawnenemydelays": [0.0, 0.01],
+	"spawnMax": 1,
+	"spawnenemyspeedy": 0,
+	"spawnenemyspeedx": 0,
+	"spawnenemyoffsety": 0,
+
+	"movement": "none",
+	"kills": false,
+
+	"transforms": true,
+	"transformsinto": "poof",
+	"transformsinto": "crab",
+	"transformtrigger": "playernear",
+	"playerNearDist": [-3.5, -2.5, 8 ,6],
+
+	"width": 1,
+	"height": 1,
+	
+	"spawnoffsety": 0.0,
+ 
+	"static": true,
+	"active": false,
+ 
+	"mask": [	true,
+				false, false, true, true, true,
+				false, true, false, true, true,
+				false, true, true, false, true,
+				true, true, false, true, true,
+				false, true, true, false, false,
+				true, false, true, true, true],
+ 
+	"emancipatecheck": false,
+	"autodelete": false,
+	
+	"resistseverything": true,
+ 
+	"offsetX": 8,
+	"offsetY": -1,
+	"quadcenterX": 8,
+	"quadcenterY": 8,
+ 
+	"nospritesets": true
+}

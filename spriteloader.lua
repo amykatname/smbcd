@@ -75,7 +75,7 @@ function loadcustomsprites(initial) --Sprite loader
 		titleframe = 1
 		titlequad = {}
 		for x = 1, titleframes do
-			titlequad[x] = love.graphics.newQuad((x-1)*176, 0, 176, 88, titleimage:getWidth(), titleimage:getHeight())
+			titlequad[x] = love.graphics.newQuad(0, 0, 219, 41, titleimage:getWidth(), titleimage:getHeight())
 		end
 		goombaquad = {}
 		for y = 1, 4 do

@@ -1,3 +1,6 @@
-name=super mario bros.
-author=nintendo
-description=classic levels
+name=super mario bros cd.
+author=smbcd team
+description=remade by amykatname
+lives=5
+physics=2
+continuesublevelmusic=t

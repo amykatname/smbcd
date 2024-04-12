@@ -49,7 +49,7 @@ function intro_draw()
 				a = (1-(introprogress-(famicomcdlogo_duration-introfadetime))/introfadetime) * 255
 			end
 			
-			love.graphics.setColor(255, 255, 255, a)
+			love.graphics.setColor(255, 255, 255, 255)
 
 			love.graphics.rectangle("fill", 0,0, love.graphics.getWidth(), love.graphics.getHeight())
 
@@ -58,6 +58,10 @@ function intro_draw()
 			love.graphics.draw(
 				logo, screenwidth/2, screenheight/2, 0, scale, scale, w/2, h/2
 			)
+
+			love.graphics.setColor(0,0,0,255-a)
+
+			love.graphics.rectangle("fill", 0,0, love.graphics.getWidth(), love.graphics.getHeight())
 		else
 			local a = 255
 

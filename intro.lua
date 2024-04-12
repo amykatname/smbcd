@@ -14,6 +14,8 @@ function intro_load()
 	screenwidth = width*16*scale
 	screenheight = 224*scale
 	allowskip = false
+
+
 end
 
 function intro_update(dt)
@@ -38,15 +40,6 @@ function intro_update(dt)
 end
 
 function intro_draw()
-	local logoscale = scale
-	if logoscale <= 1 then
-		logoscale = 0.5
-	else
-		logoscale = 1
-	end
-
-	logoscale = logoscale*0.12
-
 	if introprogress >= 0 and introprogress < introduration then
 		if introprogress <= famicomcdlogo_duration then
 			local a = 255

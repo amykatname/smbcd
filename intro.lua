@@ -47,22 +47,24 @@ function intro_draw()
 	logoscale = logoscale*0.12
 
 	if introprogress >= 0 and introprogress < introduration then
-		local a = 255
-		if introprogress < introfadetime then
-			a = introprogress/introfadetime * 255
-		elseif introprogress >= introduration-introfadetime then
-			a = (1-(introprogress-(introduration-introfadetime))/introfadetime) * 255
+		if introprogress <= famicomcdlogo_duration then
+			local a = 255
+			if introprogress < introfadetime then
+				a = introprogress/introfadetime * 255
+			elseif introprogress >= famicomcdlogo_duration-introfadetime then
+				a = (1-(introprogress-(famicomcdlogo_duration-introfadetime))/introfadetime) * 255
+			end
+			
+			love.graphics.setColor(255, 255, 255, a)
+
+			love.graphics.rectangle("fill", 0,0, love.graphics.getWidth(), love.graphics.getHeight())
+
+			logoWidth, logoHeight = logo:getDimensions()
+
+			love.graphics.draw(
+				logo, screenwidth/2, screenheight/2, 0, logoscale-0.005, logoscale-0.005, logoWidth/2, logoHeight/2
+			)
 		end
-		
-		love.graphics.setColor(255, 255, 255, a)
-
-		love.graphics.rectangle("fill", 0,0, love.graphics.getWidth(), love.graphics.getHeight())
-
-		logoWidth, logoHeight = logo:getDimensions()
-
-		love.graphics.draw(
-			logo, screenwidth/2, screenheight/2, 0, logoscale-0.005, logoscale-0.005, logoWidth/2, logoHeight/2
-		)
 	end
 end
 

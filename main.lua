@@ -184,6 +184,7 @@ function love.load()
 --	logoblood = love.graphics.newImage("graphics/stabyourselfblood.png")
 
 	logo = love.graphics.newImage("graphics/famicomcdlogo.png")
+	SMBCDTEAMPresents = love.graphics.newImage("graphics/SMBCDTEAMPresents.png")
 
 	--menu shit
 	graphicmario = love.graphics.newImage("graphics/mario.png")

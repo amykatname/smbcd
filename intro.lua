@@ -4,8 +4,9 @@ function intro_load()
 	gamestate = "intro"
 
 	famicomcdlogo_duration = famicomcdlogo_introsound:getDuration('seconds') + 1
+	smbcdteam_presents_duration = 3
 	
-	introduration = famicomcdlogo_duration + 2
+	introduration = famicomcdlogo_duration + smbcdteam_presents_duration
 	blackafterintro = 0.3
 	introfadetime = 0.5
 	introprogress = -0.5
@@ -59,11 +60,27 @@ function intro_draw()
 
 			love.graphics.rectangle("fill", 0,0, love.graphics.getWidth(), love.graphics.getHeight())
 
-			logoWidth, logoHeight = logo:getDimensions()
+			w, h = logo:getDimensions()
 
 			love.graphics.draw(
-				logo, screenwidth/2, screenheight/2, 0, logoscale-0.005, logoscale-0.005, logoWidth/2, logoHeight/2
+				logo, screenwidth/2, screenheight/2, 0, logoscale-0.005, logoscale-0.005, w/2, h/2
 			)
+		else
+			local a = 255
+
+			local p = introprogress-famicomcdlogo_duration
+
+			if p < introfadetime then
+				a = p/introfadetime * 255
+			elseif p >= smbcdteam_presents_duration-introfadetime then
+				a = (1-(p-(smbcdteam_presents_duration-introfadetime))/introfadetime) * 255
+			end
+
+			love.graphics.setColor(255, 255, 255, a)
+
+			w, h = SMBCDTEAMPresents:getDimensions()
+
+			love.graphics.draw(SMBCDTEAMPresents, screenwidth/2, screenheight/2, 0, logoscale*22, logoscale*22, w/2, h/2)
 		end
 	end
 end
@@ -72,7 +89,7 @@ function intro_mousepressed()
 	if not allowskip then
 		return
 	end
-	stabsound:stop()
+	famicomcdlogo_introsound:stop()
 	intro_finish()
 end
 
@@ -80,12 +97,13 @@ function intro_keypressed()
 	if not allowskip then
 		return
 	end
-	stabsound:stop()
+	famicomcdlogo_introsound:stop()
 	intro_finish()
 end
 
 function intro_finish()
 	menu_load()
 	logo = nil
-	logoblood = nil
+	SMBCDTEAMPresents = nil
+	famicomcdlogo_introsound = nil
 end

@@ -61,7 +61,7 @@ function intro_draw()
 		logoWidth, logoHeight = logo:getDimensions()
 
 		love.graphics.draw(
-			logo, screenwidth/2, screenheight/2, 0, logoscale, logoscale, logoWidth/2, logoHeight/2
+			logo, screenwidth/2, screenheight/2, 0, logoscale-0.005, logoscale-0.005, logoWidth/2, logoHeight/2
 		)
 	end
 end

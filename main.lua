@@ -270,19 +270,12 @@ function love.load()
 	math.randomseed(os.time());math.random();math.random()
 	
 	--intro
-	loadingtexts = {"reticulating splines", "rendering important stuff", "01110000011011110110111001111001", "sometimes, i dream about cheese",
-					"baking cake", "happy explosion day", "raising coolness by a fifth", "yay facepunch", "stabbing myself", "sharpening knives",
-					"tanaka, thai kick", "loading game genie..", "slime will find you", "becoming self-aware", "it's a secret to everybody", "there is no minus world", 
-					"oh my god, jc, a bomb", "silly loading message here", "motivational art by jorichi", "you're my favorite deputy", 
-					"licensed under wtfpl", "banned in australia", "loading anti-piracy module", "watch out there's a sni", "attack while its tail's up!", 
-					"what a horrible night to have a curse", "han shot first", "establishing connection to nsa servers..","how do i programm", 
-					"making palette inaccurate..", "y cant mario crawl?", "please hold..", "avoiding lawsuits", "loading bugs", "traduciendo a ingles",
-					"fixign typo..", "swing your arms", "this message will self destruct in 3 2 1", "preparing deadly neurotoxin", "loading asleons entetis..", 
-					"now with online multiplayer", "any second now..", "all according to keikaku", "we need pow blocks!", "cross your fingers",
-					"not accurate to the nes!", "improved stability to enhance user experience.", "0118 999 881 999 119 7253", "hoo-ray",
-					"removing herobrine", "how do i play multiplayer????", "not mario maker", "hello there", "this statement is false", 
-					"zap to the extreme", "it just works", "eat your arms", "travelling qpus...", "im a tire", "in real life!", "bold and brash", 
-					"giant enemy crabs", "but im super duper, with a big tuper", "see that mountain? you can climb it", "loading alesan99's stuff"}
+	loadingtexts = {
+		"licensed under wtfpl",
+		"not accurate to the nes-cd!",
+		"brought to you by @amykatname",
+		"deleting alesan99's work"
+	}
 						
 	loadingtext = loadingtexts[math.random(#loadingtexts)]
 	loadingbardraw(1)

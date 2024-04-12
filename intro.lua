@@ -63,7 +63,7 @@ function intro_draw()
 			w, h = logo:getDimensions()
 
 			love.graphics.draw(
-				logo, screenwidth/2, screenheight/2, 0, logoscale-0.005, logoscale-0.005, w/2, h/2
+				logo, screenwidth/2, screenheight/2, 0, scale, scale, w/2, h/2
 			)
 		else
 			local a = 255
@@ -80,7 +80,7 @@ function intro_draw()
 
 			w, h = SMBCDTEAMPresents:getDimensions()
 
-			love.graphics.draw(SMBCDTEAMPresents, screenwidth/2, screenheight/2, 0, logoscale*22, logoscale*22, w/2, h/2)
+			love.graphics.draw(SMBCDTEAMPresents, screenwidth/2, screenheight/2, 0, scale, scale, w/2, h/2)
 		end
 	end
 end

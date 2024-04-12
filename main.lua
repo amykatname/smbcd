@@ -65,26 +65,28 @@ local loadingbarv = 0 --0-1
 local loadingbardraw = function(add)
 	love.graphics.clear()
 	love.graphics.push()
-	if android then
-		love.graphics.scale(winwidth/(width*16*scale), winheight/(224*scale))
-		sixteenbynine = true
-		width = 25
-		changescale(scale)
+	if LOADINGSCREEN then
+		if android then
+			love.graphics.scale(winwidth/(width*16*scale), winheight/(224*scale))
+			sixteenbynine = true
+			width = 25
+			changescale(scale)
+		end
+		love.graphics.setColor(150, 150, 150)
+		properprint("loading smbcd...", ((width*16)*scale)/2-string.len("loading smbcd...")*4*scale, 20*scale)
+		love.graphics.setColor(50, 50, 50)
+		local scale2 = scale
+		if scale2 <= 1 then
+			scale2 = 0.5
+		else
+			scale2 = 1
+		end
+		properprint(loadingtext, ((width*16)*scale)/2-string.len(loadingtext)*4*scale, ((height*16)*scale)/2+165*scale2)
+		
+		loadingbarv = loadingbarv + (add)/(8)
+		love.graphics.setColor(255,255,255)
+		love.graphics.rectangle("fill", 0, (height*16-3)*scale, (width*16*loadingbarv)*scale, 3*scale)
 	end
-	love.graphics.setColor(150, 150, 150)
-	properprint("loading smbcd...", ((width*16)*scale)/2-string.len("loading smbcd...")*4*scale, 20*scale)
-	love.graphics.setColor(50, 50, 50)
-	local scale2 = scale
-	if scale2 <= 1 then
-		scale2 = 0.5
-	else
-		scale2 = 1
-	end
-	properprint(loadingtext, ((width*16)*scale)/2-string.len(loadingtext)*4*scale, ((height*16)*scale)/2+165*scale2)
-	
-	loadingbarv = loadingbarv + (add)/(8)
-	love.graphics.setColor(255,255,255)
-	love.graphics.rectangle("fill", 0, (height*16-3)*scale, (width*16*loadingbarv)*scale, 3*scale)
 	love.graphics.pop()
 	love.graphics.present()
 end
@@ -1588,6 +1590,10 @@ function loadconfig(nodefaultconfig)
 		s = love.filesystem.read("options.txt")
 	else
 		return
+	end
+
+	if love.filesystem.exists("loadingscreen.txt") then
+		LOADINGSCREEN = true
 	end
 	
 	s1 = s:split(";")

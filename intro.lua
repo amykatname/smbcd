@@ -4,7 +4,7 @@ function intro_load()
 	gamestate = "intro"
 
 	famicomcdlogo_duration = famicomcdlogo_introsound:getDuration('seconds') + 1
-	smbcdteam_presents_duration = 3
+	smbcdteam_presents_duration = 4
 	
 	introduration = famicomcdlogo_duration + smbcdteam_presents_duration
 	blackafterintro = 0.3

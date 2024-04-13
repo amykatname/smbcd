@@ -53,7 +53,7 @@ function intro_draw()
 
 			love.graphics.rectangle("fill", 0,0, love.graphics.getWidth(), love.graphics.getHeight())
 
-			w, h = logo:getDimensions()
+			local w, h = logo:getDimensions()
 
 			love.graphics.draw(
 				logo, screenwidth/2, screenheight/2, 0, scale, scale, w/2, h/2
@@ -75,7 +75,7 @@ function intro_draw()
 
 			love.graphics.setColor(255, 255, 255, a)
 
-			w, h = SMBCDTEAMPresents:getDimensions()
+			local w, h = SMBCDTEAMPresents:getDimensions()
 
 			love.graphics.draw(SMBCDTEAMPresents, screenwidth/2, screenheight/2, 0, scale, scale, w/2, h/2)
 		end

@@ -65,33 +65,27 @@ local loadingbarv = 0 --0-1
 local loadingbardraw = function(add)
 	love.graphics.clear()
 	love.graphics.push()
-	if android then
-		love.graphics.scale(winwidth/(width*16*scale), winheight/(224*scale))
-		sixteenbynine = true
-		width = 25
-		changescale(scale)
+	if LOADINGSCREEN then
+		if android then
+			love.graphics.scale(winwidth/(width*16*scale), winheight/(224*scale))
+			sixteenbynine = true
+			width = 25
+			changescale(scale)
+		end
+		love.graphics.setColor(150, 150, 150)
+		-- properprint("loading smbcd...", ((width*16)*scale)/2-string.len("loading smbcd...")*4*scale, 20*scale)
+		love.graphics.setColor(50, 50, 50)
+		local scale2 = scale
+		if scale2 <= 1 then
+			scale2 = 0.5
+		else
+			scale2 = 1
+		end
+		
+		loadingbarv = loadingbarv + (add)/(8)
+		love.graphics.setColor(255,255,255)
+		love.graphics.rectangle("fill", 0, (height*16-3)*scale, (width*16*loadingbarv)*scale, 3*scale)
 	end
-	--love.graphics.setColor(150, 150, 150)
-	--properprint("loading mari0..", ((width*16)*scale)/2-string.len("loading mari0..")*4*scale, 20*scale)
-	--love.graphics.setColor(50, 50, 50)
-	--local scale2 = scale
-	--if scale2 <= 1 then
-	--	scale2 = 0.5
-	--else
-	--	scale2 = 1
-	--end
-	--properprint(loadingtext, ((width*16)*scale)/2-string.len(loadingtext)*4*scale, ((height*16)*scale)/2+165*scale2)
-	--if FamilyFriendly then
-	--	love.graphics.setColor(255, 255, 255)
-	--	properprint("stys.eu", ((width*16)*scale)/2-string.len("stys.eu")*4*scale, 110*scale)
-	--else
-	--	love.graphics.setColor(255, 255, 255)
-	--	love.graphics.draw(logo, ((width*16)*scale)/2, ((height*16)*scale)/2, 0, scale2, scale2, 142, 150)
-	--end
-	--
-	--loadingbarv = loadingbarv + (add)/(8)
-	--love.graphics.setColor(255,255,255)
-	--love.graphics.rectangle("fill", 0, (height*16-3)*scale, (width*16*loadingbarv)*scale, 3*scale)
 	love.graphics.pop()
 	love.graphics.present()
 end
@@ -183,6 +177,9 @@ function love.load()
 --	logo = love.graphics.newImage("graphics/stabyourself.png") --deleted later to save memory
 --	logoblood = love.graphics.newImage("graphics/stabyourselfblood.png")
 
+	logo = love.graphics.newImage("graphics/famicomcdlogo.png")
+	SMBCDTEAMPresents = love.graphics.newImage("graphics/SMBCDTEAMPresents.png")
+
 	--menu shit
 	graphicmario = love.graphics.newImage("graphics/mario.png")
 	graphicluigi = love.graphics.newImage("graphics/luigi.png")
@@ -272,21 +269,6 @@ function love.load()
 	math.randomseed(os.time());math.random();math.random()
 	
 	--intro
-	loadingtexts = {"reticulating splines", "rendering important stuff", "01110000011011110110111001111001", "sometimes, i dream about cheese",
-					"baking cake", "happy explosion day", "raising coolness by a fifth", "yay facepunch", "stabbing myself", "sharpening knives",
-					"tanaka, thai kick", "loading game genie..", "slime will find you", "becoming self-aware", "it's a secret to everybody", "there is no minus world", 
-					"oh my god, jc, a bomb", "silly loading message here", "motivational art by jorichi", "you're my favorite deputy", 
-					"licensed under wtfpl", "banned in australia", "loading anti-piracy module", "watch out there's a sni", "attack while its tail's up!", 
-					"what a horrible night to have a curse", "han shot first", "establishing connection to nsa servers..","how do i programm", 
-					"making palette inaccurate..", "y cant mario crawl?", "please hold..", "avoiding lawsuits", "loading bugs", "traduciendo a ingles",
-					"fixign typo..", "swing your arms", "this message will self destruct in 3 2 1", "preparing deadly neurotoxin", "loading asleons entetis..", 
-					"now with online multiplayer", "any second now..", "all according to keikaku", "we need pow blocks!", "cross your fingers",
-					"not accurate to the nes!", "improved stability to enhance user experience.", "0118 999 881 999 119 7253", "hoo-ray",
-					"removing herobrine", "how do i play multiplayer????", "not mario maker", "hello there", "this statement is false", 
-					"zap to the extreme", "it just works", "eat your arms", "travelling qpus...", "im a tire", "in real life!", "bold and brash", 
-					"giant enemy crabs", "but im super duper, with a big tuper", "see that mountain? you can climb it", "loading alesan99's stuff"}
-						
-	loadingtext = loadingtexts[math.random(#loadingtexts)]
 	loadingbardraw(1)
 	
 	--require ALL the files!
@@ -988,8 +970,9 @@ function love.load()
 	glados1sound = love.audio.newSource("sounds/glados1.ogg", "stream")
 	glados2sound = love.audio.newSource("sounds/glados2.ogg", "static")
 	
-	titlemusic = love.audio.newSource("sounds/title.ogg", "static")
-	optionsmusic = love.audio.newSource("sounds/options.ogg", "static");optionsmusic:setLooping(true)
+	famicomcdlogo_introsound = love.audio.newSource("sounds/famicomcd_logo.wav", "stream")
+	titlemusic = love.audio.newSource("sounds/title.ogg", "stream")
+	optionsmusic = love.audio.newSource("sounds/options.ogg", "stream");optionsmusic:setLooping(true)
 	barry = love.audio.newSource("sounds/barry.ogg", "static")
 	barrythereal = love.audio.newSource("sounds/barryeditor.ogg", "static")
 	
@@ -1591,6 +1574,10 @@ function loadconfig(nodefaultconfig)
 		s = love.filesystem.read("options.txt")
 	else
 		return
+	end
+
+	if love.filesystem.exists("loadingscreen.txt") then
+		LOADINGSCREEN = true
 	end
 	
 	s1 = s:split(";")

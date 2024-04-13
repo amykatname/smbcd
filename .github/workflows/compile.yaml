@@ -1,11 +1,11 @@
 name: Compile
 on:
   push:
-    paths:
-      - "!README.md" # don't bother if README is the only thing that's changed
+    paths-ignore:
+      - "README.md" # don't bother if README is the only thing that's changed
   pull_request:
-    paths:
-      - "!README.md" # don't bother if README is the only thing that's changed
+    paths-ignore:
+      - "README.md" # don't bother if README is the only thing that's changed
   workflow_dispatch:
 jobs:
   build:

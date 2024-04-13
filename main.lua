@@ -73,7 +73,7 @@ local loadingbardraw = function(add)
 			changescale(scale)
 		end
 		love.graphics.setColor(150, 150, 150)
-		properprint("loading smbcd...", ((width*16)*scale)/2-string.len("loading smbcd...")*4*scale, 20*scale)
+		-- properprint("loading smbcd...", ((width*16)*scale)/2-string.len("loading smbcd...")*4*scale, 20*scale)
 		love.graphics.setColor(50, 50, 50)
 		local scale2 = scale
 		if scale2 <= 1 then

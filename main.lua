@@ -81,7 +81,6 @@ local loadingbardraw = function(add)
 		else
 			scale2 = 1
 		end
-		properprint(loadingtext, ((width*16)*scale)/2-string.len(loadingtext)*4*scale, ((height*16)*scale)/2+165*scale2)
 		
 		loadingbarv = loadingbarv + (add)/(8)
 		love.graphics.setColor(255,255,255)
@@ -270,14 +269,6 @@ function love.load()
 	math.randomseed(os.time());math.random();math.random()
 	
 	--intro
-	loadingtexts = {
-		"licensed under wtfpl",
-		"not accurate to the nes-cd!",
-		"brought to you by @amykatname",
-		"deleting alesan99's work"
-	}
-						
-	loadingtext = loadingtexts[math.random(#loadingtexts)]
 	loadingbardraw(1)
 	
 	--require ALL the files!
